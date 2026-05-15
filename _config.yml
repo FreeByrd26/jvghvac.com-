@@ -1,0 +1,61 @@
+# ═══════════════════════════════════════════════════════════════
+# JVG Cooling & Heating Solutions — Site Config
+# ═══════════════════════════════════════════════════════════════
+
+title: JVG Cooling & Heating Solutions
+description: >-
+  Family-operated HVAC and electrical contractor serving Napa Valley
+  and Sonoma County for 25 years. Heat pumps, AC, heating, electrical.
+  $69.99 preventative maintenance. Hablamos Español.
+url: https://jvghvac.com   # UPDATE when domain is confirmed
+baseurl: ""
+
+# Brand
+phone: "+17075319216"
+phone_display: "(707) 531-9216"
+email: JVGHVAC@gmail.com
+license_number: "1103018"
+license_full: "Contractors License No. 1103018"
+founded: 2001
+years_in_business: 25
+slogan: "Family Operated Business Providing Comfort and Solutions"
+
+# Service area
+service_region_primary: "Napa Valley"
+service_region_secondary: "Sonoma County"
+service_state: "California"
+
+# Offer
+offer_price: "69.99"
+offer_name: "11-Point Preventative Maintenance Tune-Up"
+
+# Languages
+languages:
+  - English
+  - Spanish
+
+# Hours
+hours:
+  open: "07:00"
+  close: "19:00"
+  display: "Mon–Sat · 7am–7pm"
+
+# Jekyll
+permalink: pretty
+markdown: kramdown
+
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor/

@@ -1,0 +1,53 @@
+{% comment %}
+═══════════════════════════════════════════════════════════════
+  JVG TRUST BAR — Block 2
+  Static, pulls from _config.yml. Same on every page.
+═══════════════════════════════════════════════════════════════
+{% endcomment %}
+
+<section class="jvg-trust">
+  <div class="jvg-trust__inner">
+
+    <div class="jvg-trust__item">
+      <div class="jvg-trust__num">{{ site.years_in_business }}</div>
+      <div class="jvg-trust__label">
+        <strong>Years in Napa Valley</strong>
+        <span>Family-operated since {{ site.founded }}</span>
+      </div>
+    </div>
+
+    <span class="jvg-trust__sep" aria-hidden="true"></span>
+
+    <div class="jvg-trust__item">
+      <div class="jvg-trust__num">3</div>
+      <div class="jvg-trust__label">
+        <strong>State Licenses</strong>
+        <span>HVAC · Electrical · General</span>
+      </div>
+    </div>
+
+    <span class="jvg-trust__sep" aria-hidden="true"></span>
+
+    <div class="jvg-trust__item">
+      <div class="jvg-trust__num jvg-trust__num--offer">
+        {% assign price_parts = site.offer_price | split: "." %}
+        <span class="jvg-trust__dollar">$</span>{{ price_parts[0] }}<span class="jvg-trust__cents">.{{ price_parts[1] }}</span>
+      </div>
+      <div class="jvg-trust__label">
+        <strong>Tune-Up Special</strong>
+        <span>11-point system check</span>
+      </div>
+    </div>
+
+    <span class="jvg-trust__sep" aria-hidden="true"></span>
+
+    <div class="jvg-trust__item">
+      <div class="jvg-trust__num jvg-trust__num--word">Sí</div>
+      <div class="jvg-trust__label">
+        <strong>Hablamos Español</strong>
+        <span>Bilingual family service</span>
+      </div>
+    </div>
+
+  </div>
+</section>

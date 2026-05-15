@@ -1,0 +1,45 @@
+<!-- ═══ JVG FOOTER ═══ -->
+<footer class="jvg-foot">
+  <div class="jvg-foot__top">
+
+    <div class="jvg-foot__brand">
+      <span class="jvg-foot__mark">JVG</span>
+      <span class="jvg-foot__sub">Cooling &amp; Heating Solutions</span>
+      <p>{{ site.slogan }}. Family-operated HVAC and electrical contractor serving {{ site.service_region_primary }} and {{ site.service_region_secondary }} since {{ site.founded }}. Hablamos Español.</p>
+    </div>
+
+    <div class="jvg-foot__col">
+      <h4>Services</h4>
+      <a href="{{ '/preventative-maintenance/' | relative_url }}">Preventative Maintenance — ${{ site.offer_price }}</a>
+      <a href="{{ '/heat-pumps/' | relative_url }}">Heat Pumps · 2027 Ready</a>
+      <a href="{{ '/air-conditioning/' | relative_url }}">Air Conditioning</a>
+      <a href="{{ '/heating/' | relative_url }}">Heating &amp; Furnaces</a>
+      <a href="{{ '/electrical/' | relative_url }}">Electrical (C-10)</a>
+      <a href="{{ '/services/' | relative_url }}">All services</a>
+    </div>
+
+    <div class="jvg-foot__col">
+      <h4>Service Areas</h4>
+      <a href="{{ '/service-areas/' | relative_url }}">Napa</a>
+      <a href="{{ '/service-areas/' | relative_url }}">Sonoma</a>
+      <a href="{{ '/service-areas/' | relative_url }}">St. Helena</a>
+      <a href="{{ '/service-areas/' | relative_url }}">Calistoga</a>
+      <a href="{{ '/service-areas/' | relative_url }}">Petaluma</a>
+      <a href="{{ '/service-areas/' | relative_url }}">All areas</a>
+    </div>
+
+    <div class="jvg-foot__col">
+      <h4>Contact</h4>
+      <a class="jvg-foot__phone" href="tel:{{ site.phone }}">{{ site.phone_display }}</a>
+      <a href="sms:{{ site.phone }}">Text Us</a>
+      <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+      <span class="jvg-foot__hours">{{ site.hours.display }}</span>
+    </div>
+
+  </div>
+
+  <div class="jvg-foot__legal">
+    <span>{{ site.license_full }} · C-20 HVAC · C-10 Electrical · B General Contractor</span>
+    <span>© {{ site.time | date: '%Y' }} {{ site.title }} · Hablamos Español</span>
+  </div>
+</footer>

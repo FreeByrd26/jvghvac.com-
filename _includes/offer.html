@@ -1,0 +1,59 @@
+{% comment %}
+═══════════════════════════════════════════════════════════════
+  JVG OFFER — Block 6
+  $69.99 preventative maintenance with the 11-point flyer checklist.
+  Hook copy + 3 questions from the official flyer.
+═══════════════════════════════════════════════════════════════
+{% endcomment %}
+
+{% assign price_parts = site.offer_price | split: "." %}
+
+<section class="jvg-offer">
+  <div class="jvg-offer__inner">
+
+    <header class="jvg-offer__head">
+      <p class="jvg-offer__eyebrow">Featured Special</p>
+      <h2 class="jvg-offer__h2">
+        Three questions<br/>
+        <em>every Napa homeowner should ask.</em>
+      </h2>
+    </header>
+
+    <ol class="jvg-offer__questions">
+      <li>When was the last time your furnace and A/C had maintenance?</li>
+      <li>When was the last time your air ventilation ducts were cleaned?</li>
+      <li>Does your system need a preventative maintenance tune-up?</li>
+    </ol>
+
+    <div class="jvg-offer__card">
+      <div class="jvg-offer__price" aria-label="{{ price_parts[0] }} dollars {{ price_parts[1] }} cents">
+        <span class="jvg-offer__dollar">$</span>
+        <span class="jvg-offer__amount">{{ price_parts[0] }}</span>
+        <span class="jvg-offer__cents">.{{ price_parts[1] }}</span>
+      </div>
+      <p class="jvg-offer__price-label">Our 11-point tune-up includes</p>
+
+      <ul class="jvg-offer__list">
+        <li><span class="jvg-offer__tick" aria-hidden="true">✓</span> Inspect the blower motor and fan</li>
+        <li><span class="jvg-offer__tick" aria-hidden="true">✓</span> Examine the heat exchanger for cracks or damage</li>
+        <li><span class="jvg-offer__tick" aria-hidden="true">✓</span> Inspect and test the ignition system and pilot assembly</li>
+        <li><span class="jvg-offer__tick" aria-hidden="true">✓</span> Check and clean burners and burner compartments</li>
+        <li><span class="jvg-offer__tick" aria-hidden="true">✓</span> Verify and test all safety controls and limit switches</li>
+        <li><span class="jvg-offer__tick" aria-hidden="true">✓</span> Inspect and tighten all electrical connections</li>
+        <li><span class="jvg-offer__tick" aria-hidden="true">✓</span> Inspect gas piping and valves for leaks</li>
+        <li><span class="jvg-offer__tick" aria-hidden="true">✓</span> Check thermostat operation and calibration</li>
+        <li><span class="jvg-offer__tick" aria-hidden="true">✓</span> Inspect venting system for blockages or damage</li>
+        <li><span class="jvg-offer__tick" aria-hidden="true">✓</span> Test the furnace cycle for proper ignition and shutdown</li>
+        <li><span class="jvg-offer__tick" aria-hidden="true">✓</span> Check carbon monoxide levels in living space</li>
+      </ul>
+
+      <div class="jvg-offer__actions">
+        <a class="jvg-offer__btn jvg-offer__btn--red" href="tel:{{ site.phone }}">Call {{ site.phone_display }}</a>
+        <a class="jvg-offer__btn jvg-offer__btn--dark" href="sms:{{ site.phone }}">Text to Book</a>
+      </div>
+
+      <p class="jvg-offer__note">Available throughout {{ site.service_region_primary }} &amp; {{ site.service_region_secondary }} · Hablamos Español · Family-operated, {{ site.years_in_business }} years</p>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,49 @@
+<!-- AI-discoverable structured data — JVG HVAC -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HVACBusiness",
+  "name": "{{ site.title }}",
+  "alternateName": "JVG HVAC",
+  "telephone": "{{ site.phone }}",
+  "email": "{{ site.email }}",
+  "url": "{{ site.url }}",
+  "priceRange": "$$",
+  "description": "{{ site.description }}",
+  "slogan": "{{ site.slogan }}",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Napa",
+    "addressRegion": "CA",
+    "addressCountry": "US"
+  },
+  "areaServed": [
+    "Napa CA", "Sonoma CA", "St. Helena CA", "Yountville CA",
+    "Calistoga CA", "Petaluma CA", "Healdsburg CA", "Sebastopol CA",
+    "American Canyon CA", "Glen Ellen CA", "Kenwood CA", "Windsor CA",
+    "Napa County CA", "Sonoma County CA"
+  ],
+  "knowsLanguage": ["English", "Spanish"],
+  "founder": "The Garcia family",
+  "foundingDate": "{{ site.founded }}",
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "opens": "{{ site.hours.open }}",
+    "closes": "{{ site.hours.close }}"
+  },
+  "hasCredential": [
+    "{{ site.license_full }}",
+    "C-20 HVAC",
+    "C-10 Electrical",
+    "B General Contractor"
+  ],
+  "makesOffer": {
+    "@type": "Offer",
+    "name": "{{ site.offer_name }}",
+    "price": "{{ site.offer_price }}",
+    "priceCurrency": "USD",
+    "description": "11-point HVAC system check including blower motor, heat exchanger, ignition, burners, safety controls, electrical connections, gas piping, thermostat, venting, furnace cycle, and CO levels."
+  }
+}
+</script>

@@ -1,0 +1,107 @@
+{% comment %}
+═══════════════════════════════════════════════════════════════
+  JVG SERVICES — Block 3
+  6-card grid with $69.99 PM + 2027 heat pump hooks.
+═══════════════════════════════════════════════════════════════
+{% endcomment %}
+
+<section class="jvg-services" id="services">
+  <div class="jvg-services__inner">
+
+    <header class="jvg-services__head">
+      <p class="jvg-services__eyebrow">What We Do</p>
+      <h2 class="jvg-services__h2">Complete HVAC and electrical —<br/><em>under one license.</em></h2>
+      <p class="jvg-services__sub">{{ site.slogan }}. Residential heating, air conditioning, air ventilation, and new installations across {{ site.service_region_primary }} and {{ site.service_region_secondary }}.</p>
+    </header>
+
+    <div class="jvg-services__grid">
+
+      <article class="jvg-services__card">
+        <div class="jvg-services__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M24 4 L8 10 L8 22 C8 32, 14 40, 24 44 C34 40, 40 32, 40 22 L40 10 Z"/>
+            <polyline points="16 23, 22 29, 32 18"/>
+          </svg>
+        </div>
+        <span class="jvg-services__badge">${{ site.offer_price }} Special</span>
+        <h3>Preventative Maintenance</h3>
+        <p>Our ${{ site.offer_price }} visit covers your furnace, A/C, gas lines, ductwork, and safety controls — an 11-point inspection that catches problems early.</p>
+        <a class="jvg-services__cta" href="{{ '/preventative-maintenance/' | relative_url }}">Book your ${{ site.offer_price }} check <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="jvg-services__card">
+        <div class="jvg-services__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="14" width="36" height="22" rx="2"/>
+            <circle cx="18" cy="25" r="6"/>
+            <circle cx="18" cy="25" r="1.5" fill="currentColor"/>
+            <line x1="30" y1="20" x2="38" y2="20"/>
+            <line x1="30" y1="25" x2="38" y2="25"/>
+            <line x1="30" y1="30" x2="38" y2="30"/>
+            <line x1="14" y1="36" x2="14" y2="40"/>
+            <line x1="34" y1="36" x2="34" y2="40"/>
+          </svg>
+        </div>
+        <span class="jvg-services__badge">2027 Ready</span>
+        <h3>Heat Pumps</h3>
+        <p>California is phasing out new furnace installs by 2027. Heat pumps heat AND cool — efficient, future-proof, and built for Napa's climate.</p>
+        <a class="jvg-services__cta" href="{{ '/heat-pumps/' | relative_url }}">Talk to a heat pump pro <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="jvg-services__card">
+        <div class="jvg-services__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M24 6 C20 14, 14 16, 14 26 C14 34, 18 42, 24 42 C30 42, 34 34, 34 26 C34 16, 28 14, 24 6 Z"/>
+            <path d="M24 18 C22 22, 20 24, 20 28 C20 32, 22 36, 24 36 C26 36, 28 32, 28 28 C28 24, 26 22, 24 18 Z"/>
+          </svg>
+        </div>
+        <span class="jvg-services__badge">C-20 Licensed</span>
+        <h3>New Installation</h3>
+        <p>Residential heating, A/C, and air ventilation systems — sized correctly for the way Napa Valley weather actually behaves.</p>
+        <a class="jvg-services__cta" href="{{ '/services/' | relative_url }}">Get a quote <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="jvg-services__card">
+        <div class="jvg-services__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M30 6 a10 10 0 0 0 -8 16 L8 36 a3 3 0 0 0 4 4 L26 26 a10 10 0 0 0 16 -8 a10 10 0 0 0 -2 -6 l-5 5 l-5 0 l0 -5 l5 -5 a10 10 0 0 0 -5 -1 z"/>
+          </svg>
+        </div>
+        <h3>Repairs</h3>
+        <p>A/C out during a heat wave? Heater dead overnight? Same-day response, honest diagnostics, and the work done right the first visit.</p>
+        <a class="jvg-services__cta" href="tel:{{ site.phone }}">Call for service <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="jvg-services__card">
+        <div class="jvg-services__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="24" y1="4" x2="24" y2="44"/>
+            <line x1="4" y1="24" x2="44" y2="24"/>
+            <line x1="10" y1="10" x2="38" y2="38"/>
+            <line x1="38" y1="10" x2="10" y2="38"/>
+            <polyline points="20 8, 24 4, 28 8" fill="none" stroke-linejoin="round"/>
+            <polyline points="20 40, 24 44, 28 40" fill="none" stroke-linejoin="round"/>
+            <polyline points="8 20, 4 24, 8 28" fill="none" stroke-linejoin="round"/>
+            <polyline points="40 20, 44 24, 40 28" fill="none" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Air Conditioning &amp; Ducts</h3>
+        <p>Cool, clean air through every Napa heat wave. New A/C systems, fast repairs, and air ventilation cleaning for wildfire-smoke season.</p>
+        <a class="jvg-services__cta" href="{{ '/air-conditioning/' | relative_url }}">Get cooling help <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="jvg-services__card">
+        <div class="jvg-services__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="26 4, 10 28, 22 28, 18 44, 38 18, 26 18, 26 4"/>
+          </svg>
+        </div>
+        <span class="jvg-services__badge">C-10 Licensed</span>
+        <h3>Electrical</h3>
+        <p>Panel upgrades, new circuits, and lighting — by the same family team. No need to call a separate electrician for your HVAC project.</p>
+        <a class="jvg-services__cta" href="{{ '/electrical/' | relative_url }}">Get electrical help <span aria-hidden="true">→</span></a>
+      </article>
+
+    </div>
+  </div>
+</section>

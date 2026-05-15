@@ -1,0 +1,90 @@
+{% comment %}
+═══════════════════════════════════════════════════════════════
+  JVG WHY — Block 5
+  4-feature grid on transparent canvas. White-font buttons.
+═══════════════════════════════════════════════════════════════
+{% endcomment %}
+
+<section class="jvg-why">
+  <div class="jvg-why__inner">
+
+    <header class="jvg-why__head">
+      <p class="jvg-why__eyebrow">Why JVG</p>
+      <h2 class="jvg-why__h2">
+        Three licenses. One family.<br/>
+        <em>No call centers.</em>
+      </h2>
+      <p class="jvg-why__sub">When you call JVG, you get the family who built this business — not a dispatcher reading from a script.</p>
+    </header>
+
+    <div class="jvg-why__grid">
+
+      <article class="jvg-why__feature">
+        <span class="jvg-why__num">01</span>
+        <div class="jvg-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="24" cy="18" r="12"/>
+            <polyline points="18,19 22,23 30,14"/>
+            <path d="M14 28 L9 44 L17 40 L24 44 L31 40 L39 44 L34 28"/>
+          </svg>
+        </div>
+        <h3>Triple-Licensed</h3>
+        <p class="jvg-why__creds">CSL #{{ site.license_number }} · C-20 · C-10 · B&nbsp;General</p>
+        <p>One trusted team for HVAC, electrical, and general contracting across Napa and Sonoma. No need to juggle separate vendors.</p>
+      </article>
+
+      <article class="jvg-why__feature">
+        <span class="jvg-why__num">02</span>
+        <div class="jvg-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="17" cy="14" r="6"/>
+            <circle cx="33" cy="14" r="6"/>
+            <path d="M5 38 C5 30, 11 24, 17 24 C23 24, 29 30, 29 38"/>
+            <path d="M19 38 C19 30, 27 24, 33 24 C39 24, 45 30, 45 38"/>
+          </svg>
+        </div>
+        <h3>Father &amp; Son</h3>
+        <p class="jvg-why__creds">{{ site.years_in_business }} Years · Family-Operated</p>
+        <p>You call, we answer. No call centers. No upselling. Real people who own their work and remember your name.</p>
+      </article>
+
+      <article class="jvg-why__feature">
+        <span class="jvg-why__num">03</span>
+        <div class="jvg-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="24" cy="26" r="16"/>
+            <polyline points="24,16 24,26 32,30"/>
+            <line x1="20" y1="4" x2="28" y2="4"/>
+            <line x1="24" y1="4" x2="24" y2="8"/>
+          </svg>
+        </div>
+        <h3>Same-Day Service</h3>
+        <p class="jvg-why__creds">Emergencies First</p>
+        <p>When your AC dies in a Napa heat wave or your system quits during wildfire smoke season, we move you to the front of the line.</p>
+      </article>
+
+      <article class="jvg-why__feature">
+        <span class="jvg-why__num">04</span>
+        <div class="jvg-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 10 h22 a3 3 0 0 1 3 3 v12 a3 3 0 0 1 -3 3 h-12 l-7 6 v-21 a3 3 0 0 1 -3 -3 z"/>
+            <path d="M19 18 h22 a3 3 0 0 1 3 3 v12 a3 3 0 0 1 -3 3 h-12 l-7 6 v-21 a3 3 0 0 1 -3 -3 z" opacity="0.5"/>
+          </svg>
+        </div>
+        <h3>Hablamos Español</h3>
+        <p class="jvg-why__creds">Bilingual Family Service</p>
+        <p>We serve our community in both languages — with the respect and care every family deserves.</p>
+      </article>
+
+    </div>
+
+    <div class="jvg-why__bottom">
+      <p>Want to talk to the family directly?</p>
+      <div class="jvg-why__actions">
+        <a class="jvg-why__btn jvg-why__btn--red" href="tel:{{ site.phone }}">Call {{ site.phone_display }}</a>
+        <a class="jvg-why__btn jvg-why__btn--dark" href="sms:{{ site.phone }}">Text Us</a>
+      </div>
+    </div>
+
+  </div>
+</section>

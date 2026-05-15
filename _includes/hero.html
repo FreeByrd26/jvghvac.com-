@@ -1,0 +1,75 @@
+{% comment %}
+═══════════════════════════════════════════════════════════════
+  JVG HERO — reusable hero block (Block 1)
+  Accepts page-level params for headline, image, and chip quote.
+
+  Usage in a page:
+  {% include hero.html
+     eyebrow="Napa Valley · Sonoma County · Since 2001"
+     headline_a="Napa Valley comfort,"
+     headline_b="built by family."
+     lede="Family-operated for 25 years..."
+     image="/assets/images/vineyard-hero.jpg"
+     image_alt="Napa Valley vineyard at golden hour"
+     chip_quote="Best HVAC family in Napa Valley — they know this climate."
+     chip_author="— Local homeowner, Napa" %}
+═══════════════════════════════════════════════════════════════
+{% endcomment %}
+
+{% assign eyebrow      = include.eyebrow      | default: "Napa Valley · Sonoma County · Since 2001" %}
+{% assign headline_a   = include.headline_a   | default: "Napa Valley comfort," %}
+{% assign headline_b   = include.headline_b   | default: "built by family." %}
+{% assign lede         = include.lede         | default: "Family-operated for 25 years. Heat pump experts ready for California's 2027 furnace phase-out. Hablamos Español." %}
+{% assign image        = include.image        | default: "/assets/images/vineyard-hero.jpg" %}
+{% assign image_alt    = include.image_alt    | default: "Napa Valley vineyard — JVG serves Napa and Sonoma County" %}
+{% assign chip_quote   = include.chip_quote   | default: "Best HVAC family in Napa Valley — they know this climate." %}
+{% assign chip_author  = include.chip_author  | default: "— Local homeowner, Napa" %}
+
+<section class="jvg-hero">
+  <div class="jvg-hero__inner">
+    <div class="jvg-hero__content">
+      <p class="jvg-hero__eyebrow">{{ eyebrow }}</p>
+
+      <h1 class="jvg-hero__h1">
+        <span>{{ headline_a }}</span>
+        <span class="jvg-hero__h1-accent">{{ headline_b }}</span>
+      </h1>
+
+      <p class="jvg-hero__lede">{{ lede }}</p>
+
+      <div class="jvg-hero__actions">
+        <a class="jvg-hero__btn jvg-hero__btn--call" href="tel:{{ site.phone }}">
+          <svg class="jvg-hero__btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1 1 0 0 0-1.02.24l-2.2 2.2a15.05 15.05 0 0 1-6.59-6.59l2.2-2.21a1 1 0 0 0 .25-1.02A11.36 11.36 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1c0 9.39 7.61 17 17 17a1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/>
+          </svg>
+          <span>
+            <strong>Call {{ site.phone_display }}</strong>
+            <em>Always here to answer</em>
+          </span>
+        </a>
+        <a class="jvg-hero__btn jvg-hero__btn--text" href="sms:{{ site.phone }}">
+          <svg class="jvg-hero__btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM7 11h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z"/>
+          </svg>
+          <span>Text Us</span>
+        </a>
+      </div>
+
+      <ul class="jvg-hero__trust">
+        <li><span class="jvg-hero__trust-tick">✓</span> Licensed CSL&nbsp;#{{ site.license_number }}</li>
+        <li><span class="jvg-hero__trust-tick">★</span> Trusted by Napa families</li>
+        <li><span class="jvg-hero__trust-tick">✓</span> Same-day service</li>
+        <li><span class="jvg-hero__trust-tick">✓</span> Hablamos Español</li>
+      </ul>
+    </div>
+
+    <div class="jvg-hero__media">
+      <img class="jvg-hero__img" src="{{ image | relative_url }}" alt="{{ image_alt }}" />
+      <figure class="jvg-hero__chip">
+        <div class="jvg-hero__chip-stars" aria-hidden="true">★★★★★</div>
+        <blockquote>"{{ chip_quote }}"</blockquote>
+        <figcaption>{{ chip_author }}</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
