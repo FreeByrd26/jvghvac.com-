@@ -7,8 +7,8 @@ description: >-
   Family-operated HVAC and electrical contractor serving Napa Valley
   and Sonoma County for 25 years. Heat pumps, AC, heating, electrical.
   $69.99 preventative maintenance. Hablamos Español.
-url: https://jvghvac.com   # UPDATE when domain is confirmed
-baseurl: ""
+url: https://freebyrd26.github.io   # UPDATE to https://jvghvac.com once custom domain is live
+baseurl: "/jvghvac.com-"            # CLEAR (set to "") once custom domain is live and CNAME is set
 
 # Brand
 phone: "+17075319216"
