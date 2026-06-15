@@ -27,7 +27,7 @@ service_state: "California"
 
 # Offer
 offer_price: "79.99"
-offer_name: "11-Point Preventative Maintenance Tune-Up"
+offer_name: "Preventative Maintenance Tune-Up"
 
 # Languages
 languages:
