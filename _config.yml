@@ -6,7 +6,7 @@ title: JVG Cooling & Heating Solutions
 description: >-
   Family-operated HVAC and electrical contractor serving Napa Valley
   and Sonoma County for 25 years. Heat pumps, AC, heating, electrical.
-  $79.99 preventative maintenance. Hablamos Español.
+  $69.99 preventative maintenance and diagnostic.
 url: https://freebyrd26.github.io   # UPDATE to https://jvghvac.com once custom domain is live
 baseurl: "/jvghvac.com-"            # CLEAR (set to "") once custom domain is live and CNAME is set
 
@@ -26,13 +26,8 @@ service_region_secondary: "Sonoma County"
 service_state: "California"
 
 # Offer
-offer_price: "79.99"
-offer_name: "Preventative Maintenance Tune-Up"
-
-# Languages
-languages:
-  - English
-  - Spanish
+offer_price: "69.99"
+offer_name: "Preventative Maintenance & Diagnostic"
 
 # Hours
 hours:

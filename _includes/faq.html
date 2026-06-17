@@ -16,32 +16,22 @@
     <div class="jvg-faq__list">
       <details open>
         <summary>What areas does JVG service?</summary>
-        <p>{{ site.service_region_primary }} and {{ site.service_region_secondary }} — including Napa, Sonoma, St. Helena, Yountville, Calistoga, Petaluma, Healdsburg, Sebastopol, American Canyon, Glen Ellen, Kenwood, and Windsor.</p>
+        <p>{{ site.service_region_primary }} and {{ site.service_region_secondary }} — including Napa, Sonoma, St. Helena, Yountville, Calistoga, Petaluma, Healdsburg, Sebastopol, Vacaville, Fairfield, Glen Ellen, Kenwood, and Windsor.</p>
       </details>
 
       <details>
-        <summary>What is the ${{ site.offer_price }} preventative maintenance tune-up?</summary>
-        <p>A complete system check from a JVG technician. We inspect the blower motor and fan, examine the heat exchanger for cracks, test the ignition system and pilot, clean burners, verify safety controls, tighten electrical connections, check gas piping for leaks, calibrate the thermostat, inspect the venting system, run a full furnace cycle, and check carbon monoxide levels in the living space. You get a written assessment in plain language — no pressure, no upselling.</p>
+        <summary>What is the ${{ site.offer_price }} preventative maintenance &amp; diagnostic?</summary>
+        <p>A complete diagnostic and preventative maintenance visit from a JVG technician. We inspect the blower motor and fan, examine the heat exchanger for cracks, test the ignition system and pilot, clean burners, verify safety controls, tighten electrical connections, check gas piping for leaks, calibrate the thermostat, inspect the venting system, run a full furnace cycle, and check carbon monoxide levels in the living space. You get a written assessment in plain language — no pressure, no upselling — and a system that's protected all year long.</p>
       </details>
 
       <details>
-        <summary>Do you clean air ventilation and ducts?</summary>
-        <p>Yes. Air ventilation maintenance is part of what we do — important in Napa where wildfire smoke season makes air quality a real concern. We can include duct inspection as part of your tune-up visit.</p>
-      </details>
-
-      <details>
-        <summary>Tell me about California's 2027 furnace phase-out.</summary>
-        <p>California is phasing out new natural-gas furnace installations by 2027 to meet clean-air goals. Heat pumps heat AND cool your home with electricity, so they're the future of California comfort. We've installed them for years and can help you plan the transition before the deadline.</p>
+        <summary>What are the new regulations for gas furnaces and water heaters in California?</summary>
+        <p>California is moving away from gas-burning home appliances. Under the state's zero-emission appliance standards, new residential gas furnaces and gas water heaters are being phased out beginning in 2027, with electric heat pump models becoming the standard. Heat pump HVAC systems and heat pump water heaters meet the new rules — we install both and can help you plan the switch before the deadline so you're never caught off guard.</p>
       </details>
 
       <details>
         <summary>Are you licensed and insured?</summary>
         <p>Yes. {{ site.license_full }} with C-20 HVAC, C-10 Electrical, and B General Contractor classifications. Fully bonded and insured for residential work across California.</p>
-      </details>
-
-      <details>
-        <summary>¿Hablan español?</summary>
-        <p>Sí. We're a family-operated bilingual business serving the Napa community in both English and Spanish.</p>
       </details>
 
       <details>
@@ -67,7 +57,7 @@
         <a class="jvg-faq__btn jvg-faq__btn--red" href="tel:{{ site.phone }}">Call {{ site.phone_display }}</a>
         <a class="jvg-faq__btn jvg-faq__btn--dark" href="sms:{{ site.phone }}">Text Us</a>
       </div>
-      <p class="jvg-faq__hours">{{ site.hours.display }} · Hablamos Español</p>
+      <p class="jvg-faq__hours">{{ site.hours.display }}</p>
     </div>
 
   </div>
@@ -79,12 +69,10 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"What areas does JVG service?","acceptedAnswer":{"@type":"Answer","text":"Napa Valley and Sonoma County — Napa, Sonoma, St. Helena, Yountville, Calistoga, Petaluma, Healdsburg, Sebastopol, American Canyon, Glen Ellen, Kenwood, and Windsor."}},
-    {"@type":"Question","name":"What is the ${{ site.offer_price }} preventative maintenance tune-up?","acceptedAnswer":{"@type":"Answer","text":"A complete system check covering blower motor, heat exchanger, ignition system, burners, safety controls, electrical connections, gas piping, thermostat, venting, furnace cycle test, and carbon monoxide levels. Written assessment, no upselling."}},
-    {"@type":"Question","name":"Do you clean air ventilation and ducts?","acceptedAnswer":{"@type":"Answer","text":"Yes. Air ventilation maintenance is part of JVG's services, important in Napa where wildfire smoke affects air quality."}},
-    {"@type":"Question","name":"Tell me about California's 2027 furnace phase-out.","acceptedAnswer":{"@type":"Answer","text":"California is phasing out new natural-gas furnace installations by 2027. Heat pumps heat AND cool homes with electricity — the future of California comfort."}},
+    {"@type":"Question","name":"What areas does JVG service?","acceptedAnswer":{"@type":"Answer","text":"Napa Valley and Sonoma County — Napa, Sonoma, St. Helena, Yountville, Calistoga, Petaluma, Healdsburg, Sebastopol, Vacaville, Fairfield, Glen Ellen, Kenwood, and Windsor."}},
+    {"@type":"Question","name":"What is the ${{ site.offer_price }} preventative maintenance and diagnostic?","acceptedAnswer":{"@type":"Answer","text":"A complete diagnostic and preventative maintenance visit covering blower motor, heat exchanger, ignition system, burners, safety controls, electrical connections, gas piping, thermostat, venting, furnace cycle test, and carbon monoxide levels. Written assessment, no upselling — your system protected all year long."}},
+    {"@type":"Question","name":"What are the new regulations for gas furnaces and water heaters in California?","acceptedAnswer":{"@type":"Answer","text":"California is phasing out new residential gas furnaces and gas water heaters beginning in 2027 under the state's zero-emission appliance standards. Electric heat pump HVAC systems and heat pump water heaters meet the new rules. JVG installs both and can help plan the switch before the deadline."}},
     {"@type":"Question","name":"Is JVG licensed and insured?","acceptedAnswer":{"@type":"Answer","text":"Yes. {{ site.license_full }} with C-20 HVAC, C-10 Electrical, and B General Contractor classifications. Fully bonded and insured."}},
-    {"@type":"Question","name":"¿Hablan español?","acceptedAnswer":{"@type":"Answer","text":"Sí. JVG is a family-operated bilingual business serving the Napa community in both English and Spanish."}},
     {"@type":"Question","name":"How much does a new HVAC system cost in Napa?","acceptedAnswer":{"@type":"Answer","text":"Most residential installations range from $6,000 to $15,000 depending on home size and system type. JVG offers free in-home estimates."}},
     {"@type":"Question","name":"Does JVG offer same-day service?","acceptedAnswer":{"@type":"Answer","text":"Yes — same-day service available for emergencies. Call or text {{ site.phone_display }}."}},
     {"@type":"Question","name":"Does JVG handle electrical work?","acceptedAnswer":{"@type":"Answer","text":"Yes. JVG holds a C-10 Electrical license covering panel upgrades, circuits, lighting, and residential electrical repairs."}}

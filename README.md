@@ -27,7 +27,7 @@ All site-wide variables (phone, license, slogan, offer price, hours) live in `_c
 ```yaml
 phone: "+17075319216"
 phone_display: "(707) 531-9216"
-offer_price: "79.99"
+offer_price: "69.99"
 slogan: "Family Operated Business Providing Comfort and Solutions"
 ```
 
@@ -50,7 +50,7 @@ site/
 │   ├── services.html
 │   ├── about.html
 │   ├── why.html
-│   ├── offer.html          # tune-up offer
+│   ├── offer.html          # maintenance & diagnostic offer
 │   ├── service-areas.html
 │   └── faq.html
 ├── assets/
@@ -61,7 +61,7 @@ site/
 ├── index.html              # Home
 ├── about.html
 ├── services.html
-├── preventative-maintenance.html  # Tune-up landing page
+├── preventative-maintenance.html  # Maintenance & diagnostic landing page
 ├── heat-pumps.html
 ├── air-conditioning.html
 ├── heating.html
@@ -96,5 +96,4 @@ To enable the custom domain `jvghvac.com`:
 - **Phone:** (707) 531-9216
 - **Email:** JVGHVAC@gmail.com
 - **Service area:** Napa Valley, Sonoma County
-- **Lead-gen offer:** $79.99 preventative maintenance tune-up
-- **Hablamos Español**
+- **Lead-gen offer:** $69.99 preventative maintenance & diagnostic
