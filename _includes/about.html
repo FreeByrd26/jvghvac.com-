@@ -11,7 +11,7 @@
 {% endcomment %}
 
 {% assign image      = include.image      | default: "/assets/images/jvg-tech-at-work.jpg" %}
-{% assign image_alt  = include.image_alt  | default: "JVG technician at work — 25 years of trusted family service in Napa Valley" %}
+{% assign image_alt  = include.image_alt  | default: "JVG technician at work — 25 years of hands-on HVAC experience in Napa Valley" %}
 
 <section class="jvg-about" id="about">
   <div class="jvg-about__inner">
@@ -19,10 +19,10 @@
     <div class="jvg-about__media">
       <div class="jvg-about__photo">
         <img src="{{ image | relative_url }}" alt="{{ image_alt }}" />
-        <span class="jvg-about__stamp">Est. {{ site.founded }}</span>
+        <span class="jvg-about__stamp">Family-Operated</span>
       </div>
       <div class="jvg-about__numbers" aria-hidden="true">
-        <div><strong>{{ site.years_in_business }}</strong><span>Years</span></div>
+        <div><strong>{{ site.years_experience }}</strong><span>Years' Experience</span></div>
         <div><strong>3</strong><span>Licenses</span></div>
         <div><strong>2</strong><span>Generations</span></div>
       </div>
@@ -36,7 +36,7 @@
         <em>One Napa family.</em>
       </h2>
 
-      <p>JVG was started in {{ site.founded }} by a father who believed in two things: <strong>honest work</strong> and <strong>family</strong>. Twenty-five years later, his son works alongside him on every job.</p>
+      <p>JVG is a family business built on 25 years of hands-on HVAC experience. A father who believes in two things — <strong>honest work</strong> and <strong>family</strong> — now works alongside his son on every job.</p>
 
       <p>We answer the phone. We show up on time. We tell you what you actually need — not what costs the most. That's the standard we set when we started, and it hasn't changed.</p>
 

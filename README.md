@@ -91,7 +91,7 @@ To enable the custom domain `jvghvac.com`:
 
 ## Brand facts
 
-- **Family-operated** since **2001** — Father & son, the Garcia family
+- **Family-operated** — Father & son, the Garcia family, with **25 years of hands-on HVAC experience** (new business, seasoned tradespeople)
 - **License:** Contractors License No. 1103018 · C-20 HVAC · C-10 Electrical · B General Contractor
 - **Phone:** (707) 531-9216
 - **Email:** JVGHVAC@gmail.com
