@@ -1,0 +1,74 @@
+{% comment %}
+═══════════════════════════════════════════════════════════════
+  JVG LEAD FORM — captures Name / Email / Phone
+  Posts to a Google Apps Script Web App (site.lead_form_endpoint),
+  which appends a row to a Google Sheet. See GOOGLE-LEAD-FORM-SETUP.md.
+  Uses mode:no-cors (Apps Script doesn't send CORS headers), so the
+  submit is optimistic — the row is written even though we can't read
+  the response. Falls back to a "call us" message if no endpoint is set.
+═══════════════════════════════════════════════════════════════
+{% endcomment %}
+
+<section class="jvg-lead" id="get-offer">
+  <div class="jvg-lead__inner">
+    <header class="jvg-lead__head">
+      <p class="jvg-lead__eyebrow">Claim the ${{ site.offer_price }} Special</p>
+      <h2 class="jvg-lead__h2">Book your <em>maintenance &amp; diagnostic</em>.</h2>
+      <p class="jvg-lead__sub">Leave your details and we'll call to schedule — usually same day. No obligation.</p>
+    </header>
+
+    <form class="jvg-lead__form"
+          data-endpoint="{{ site.lead_form_endpoint }}"
+          data-phone="{{ site.phone_display }}">
+      <div class="jvg-lead__row">
+        <label class="jvg-lead__field">
+          <span>Name</span>
+          <input type="text" name="name" autocomplete="name" required placeholder="Your name" />
+        </label>
+        <label class="jvg-lead__field">
+          <span>Phone</span>
+          <input type="tel" name="phone" autocomplete="tel" required placeholder="(707) 000-0000" />
+        </label>
+        <label class="jvg-lead__field">
+          <span>Email</span>
+          <input type="email" name="email" autocomplete="email" required placeholder="you@email.com" />
+        </label>
+      </div>
+      {%- comment -%} Honeypot — bots fill this, humans don't {%- endcomment -%}
+      <input type="text" name="company" class="jvg-lead__hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <input type="hidden" name="source" value="{{ page.title | default: site.title }}" />
+      <button type="submit" class="jvg-lead__btn">Get my ${{ site.offer_price }} visit →</button>
+      <p class="jvg-lead__msg" role="status" aria-live="polite"></p>
+      <p class="jvg-lead__fine">Prefer to talk? Call or text <a href="tel:{{ site.phone }}">{{ site.phone_display }}</a>.</p>
+    </form>
+  </div>
+</section>
+
+<script>
+(function () {
+  var form = document.currentScript.previousElementSibling.querySelector('.jvg-lead__form');
+  if (!form) return;
+  var msg = form.querySelector('.jvg-lead__msg');
+  var btn = form.querySelector('.jvg-lead__btn');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (form.company.value) return; // honeypot tripped
+    var endpoint = form.getAttribute('data-endpoint');
+    var phone = form.getAttribute('data-phone');
+    btn.disabled = true;
+    var done = function (ok) {
+      form.reset();
+      btn.disabled = false;
+      msg.className = 'jvg-lead__msg ' + (ok ? 'is-ok' : 'is-warn');
+      msg.textContent = ok
+        ? "Thanks! We've got your info and will call shortly to schedule."
+        : "Thanks! Please call us at " + phone + " to lock in your appointment.";
+    };
+    if (!endpoint) { done(false); return; }
+    var data = new URLSearchParams(new FormData(form)); // x-www-form-urlencoded, no CORS preflight
+    fetch(endpoint, { method: 'POST', mode: 'no-cors', body: data })
+      .then(function () { done(true); })
+      .catch(function () { done(false); });
+  });
+})();
+</script>

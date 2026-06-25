@@ -28,6 +28,10 @@ service_state: "California"
 offer_price: "69.99"
 offer_name: "Preventative Maintenance & Diagnostic"
 
+# Lead form — paste the Google Apps Script Web App URL here to send submissions
+# to the Google Sheet (see GOOGLE-LEAD-FORM-SETUP.md). Leave blank until set up.
+lead_form_endpoint: ""
+
 # Hours
 hours:
   open: "07:00"
