@@ -246,7 +246,7 @@ a { color: inherit; }
 
 @media (max-width: 960px) {
   .jvg-hero__inner { grid-template-columns: 1fr; gap: 40px; padding: 56px 24px 64px; }
-  .jvg-hero__media { aspect-ratio: 16 / 10; }
+  .jvg-hero__media { aspect-ratio: 16 / 10; order: -1; }
   .jvg-hero__btn--call, .jvg-hero__btn--text { width: 100%; }
   .jvg-hero__trust { grid-template-columns: 1fr; row-gap: 10px; }
 }
