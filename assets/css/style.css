@@ -918,3 +918,20 @@ a { color: inherit; }
   .jvg-lead__inner { padding: 30px 22px; }
   .jvg-lead__row { grid-template-columns: 1fr; }
 }
+
+/* ════════════════════════════════════════════════════════════════
+   LEGAL PAGES (privacy / terms / accessibility)
+   ════════════════════════════════════════════════════════════════ */
+.jvg-legal { position: relative; z-index: 1; padding: 64px 24px 80px; }
+.jvg-legal__inner { max-width: 760px; margin: 0 auto; background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 48px 44px; }
+.jvg-legal h1 { font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.02em; color: var(--blue); margin: 0 0 6px; }
+.jvg-legal__updated { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
+.jvg-legal h2 { font-size: 19px; font-weight: 700; color: var(--ink); margin: 30px 0 10px; }
+.jvg-legal p, .jvg-legal li { font-size: 15.5px; line-height: 1.7; color: var(--ink-d); }
+.jvg-legal ul { padding-left: 22px; margin: 10px 0; }
+.jvg-legal a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.jvg-legal a:hover { text-decoration: underline; }
+@media (max-width: 640px) { .jvg-legal__inner { padding: 32px 22px; } }
+
+.jvg-foot__legal-links a { color: inherit; text-decoration: none; }
+.jvg-foot__legal-links a:hover { text-decoration: underline; }
