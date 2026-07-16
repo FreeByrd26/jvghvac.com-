@@ -1,0 +1,155 @@
+---
+layout: null
+permalink: /plan/
+sitemap: false
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>JVG 30-Day Marketing Plan</title>
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<style>
+  :root {
+    --cream:#FAF9F5; --card:#FFFFFF; --ink:#20242E; --muted:#71767F;
+    --navy:#2A3566; --red:#C53A1D; --red-d:#9E2D14; --line:#E7E3DA; --tick:#2F7D46;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--cream); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; font-size:16px; }
+  .page { max-width:760px; margin:0 auto; padding:44px 24px 64px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin:0 0 10px; }
+  h1 { font-size:clamp(26px,5vw,34px); font-weight:800; letter-spacing:-.02em; color:var(--navy); margin:0 0 6px; line-height:1.12; }
+  .meta { color:var(--muted); font-size:14px; margin:0 0 26px; }
+  .goal { background:var(--card); border:1px solid var(--line); border-left:4px solid var(--red);
+    border-radius:10px; padding:16px 20px; font-size:17px; font-weight:600; margin:0 0 14px; }
+  .goal em { color:var(--red); font-style:normal; }
+  .done { color:var(--muted); font-size:14.5px; margin:0 0 34px; padding:0 4px; }
+  .done strong { color:var(--tick); }
+  h2 { font-size:13px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--navy); margin:0 0 14px; }
+  .weeks { display:flex; flex-direction:column; gap:10px; margin:0 0 34px; }
+  .week { display:grid; grid-template-columns:92px 1fr; gap:16px; align-items:baseline;
+    background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 18px; }
+  .week b { color:var(--red); font-size:14px; letter-spacing:.04em; white-space:nowrap; }
+  .week p { margin:0; }
+  .week strong { color:var(--navy); }
+  .week span { color:var(--muted); }
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:0 0 34px; }
+  .col { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px 20px; }
+  .col ul { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px; }
+  .col li { padding-left:24px; position:relative; font-size:15px; }
+  .col--get li::before { content:"✓"; position:absolute; left:0; color:var(--tick); font-weight:700; }
+  .col--do li::before { content:"→"; position:absolute; left:0; color:var(--red); font-weight:700; }
+  .faq { margin:0 0 38px; display:flex; flex-direction:column; gap:12px; }
+  .qa { border-bottom:1px solid var(--line); padding-bottom:12px; }
+  .qa:last-child { border-bottom:0; }
+  .qa p { margin:0; }
+  .qa .q { font-weight:700; color:var(--navy); }
+  .qa .a { color:var(--muted); }
+
+  .agree { background:var(--card); border:1px solid var(--line); border-top:4px solid var(--navy);
+    border-radius:12px; padding:26px 24px; }
+  .agree h2 { margin-bottom:6px; }
+  .agree .sub { color:var(--muted); font-size:14.5px; margin:0 0 18px; }
+  label { display:block; font-size:13px; font-weight:600; margin:0 0 6px; }
+  input[type=text], textarea { width:100%; font:inherit; font-size:16px; padding:12px 14px;
+    border:1px solid var(--line); border-radius:9px; background:var(--cream); color:var(--ink); }
+  input:focus, textarea:focus { outline:none; border-color:var(--navy); box-shadow:0 0 0 3px rgba(42,53,102,.12); }
+  textarea { min-height:90px; resize:vertical; margin-top:14px; display:none; }
+  .btns { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px; }
+  .btn { border:0; border-radius:10px; cursor:pointer; padding:16px 18px; font:inherit; font-weight:700; font-size:16px; transition:transform .15s ease, background .15s ease; }
+  .btn:hover { transform:translateY(-1px); }
+  .btn--yes { background:var(--red); color:#fff; box-shadow:0 8px 22px rgba(197,58,29,.3); }
+  .btn--yes:hover { background:var(--red-d); }
+  .btn--q { background:var(--navy); color:#fff; }
+  .note { color:var(--muted); font-size:13px; margin:14px 0 0; text-align:center; }
+  @media (max-width:560px){ .cols{grid-template-columns:1fr;} .week{grid-template-columns:1fr; gap:4px;} .btns{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="page">
+  <p class="eyebrow">JVG Cooling &amp; Heating Solutions × FreeByrd</p>
+  <h1>The 30-Day Marketing Plan</h1>
+  <p class="meta">Prepared for Hazi &amp; family · One page — everything we'd do, nothing extra</p>
+
+  <p class="goal">One goal: <em>more Napa-area calls</em> — every lead saved in one place, and nothing new for you to manage.</p>
+  <p class="done"><strong>Already live:</strong> your website at jvghvac.com — new design, your logo and colors, mobile-ready, lead form on every page, and the Google listing prepped. This plan puts it to work.</p>
+
+  <h2>The four weeks</h2>
+  <div class="weeks">
+    <div class="week"><b>Week 1</b><p><strong>Get set up.</strong> <span>Facebook page created · one-screen client list for you and your dad (replaces the paper) · contact form wired to it, with an automatic email reply to every lead.</span></p></div>
+    <div class="week"><b>Week 2</b><p><strong>Start the content.</strong> <span>Napa-focused article on the website (brings Google traffic) · Facebook posts begin — about 5 a week, we write and design all of them.</span></p></div>
+    <div class="week"><b>Week 3</b><p><strong>Get found.</strong> <span>Google Business listing verified and live (reviews can start) · posts continue · first newsletter drafted for your approval.</span></p></div>
+    <div class="week"><b>Week 4</b><p><strong>Send &amp; review.</strong> <span>Newsletter goes out to everyone who signed up · we sit down together: leads, calls, what worked, and what month two looks like.</span></p></div>
+  </div>
+
+  <div class="cols">
+    <div class="col col--get">
+      <h2>What you get</h2>
+      <ul>
+        <li>One-screen client list — phone-friendly, just for you two</li>
+        <li>Contact form + automatic email reply to every lead</li>
+        <li>Facebook page + 20 branded posts with copy</li>
+        <li>2,000-word Napa article on your website</li>
+        <li>Monthly newsletter — written to what matters in Napa that month</li>
+        <li>Email dashboard — one glance: your customers, who signed up, what was sent</li>
+        <li>Google Business listing, live with reviews</li>
+      </ul>
+    </div>
+    <div class="col col--do">
+      <h2>What we need from you</h2>
+      <ul>
+        <li>Say yes or no to drafts before they go out — by text is fine</li>
+        <li>Enter the Google verification code when it arrives</li>
+        <li>Answer the phone when leads call — that's it</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Questions you might have</h2>
+  <div class="faq">
+    <div class="qa"><p class="q">Do we have to learn new software?</p><p class="a">One screen. If you can read a text message, you can use it.</p></div>
+    <div class="qa"><p class="q">Who writes all of this?</p><p class="a">We do — posts, article, newsletter. Nothing goes out without your OK.</p></div>
+    <div class="qa"><p class="q">What does it cost to run?</p><p class="a">The tools themselves are free at your size — no monthly software bills.</p></div>
+    <div class="qa"><p class="q">What happens after 30 days?</p><p class="a">We review the results together on day 30 and decide month two. Nothing renews on its own.</p></div>
+  </div>
+
+  <div class="agree" id="agree">
+    <h2>Your call</h2>
+    <p class="sub">Type your name, then tap one — it opens an email back to us, ready to send.</p>
+    <label for="name">Your name</label>
+    <input type="text" id="name" autocomplete="name" placeholder="Hazi Garcia">
+    <textarea id="question" placeholder="Type your question here…"></textarea>
+    <div class="btns">
+      <button class="btn btn--yes" id="yes">Looks good — let's start ✓</button>
+      <button class="btn btn--q" id="ask">I have a question</button>
+    </div>
+    <p class="note">Sends to cameron@freebyrd.pro — nothing is stored on this page.</p>
+  </div>
+</div>
+<script>
+(function(){
+  var name = document.getElementById('name');
+  var q = document.getElementById('question');
+  var asked = false;
+  document.getElementById('yes').addEventListener('click', function(){
+    var n = name.value.trim() || 'JVG';
+    var d = new Date().toLocaleDateString('en-US');
+    location.href = 'mailto:cameron@freebyrd.pro'
+      + '?subject=' + encodeURIComponent('APPROVED — JVG 30-Day Plan (' + n + ')')
+      + '&body=' + encodeURIComponent('I approve the 30-day marketing plan as written.\n\nName: ' + n + '\nDate: ' + d + '\n\n(Sent from jvghvac.com/plan)');
+  });
+  document.getElementById('ask').addEventListener('click', function(){
+    if (!asked) { q.style.display = 'block'; asked = true; q.focus(); return; }
+    var n = name.value.trim() || 'JVG';
+    location.href = 'mailto:cameron@freebyrd.pro'
+      + '?subject=' + encodeURIComponent('Question — JVG 30-Day Plan (' + n + ')')
+      + '&body=' + encodeURIComponent((q.value.trim() || '(typed nothing — call me)') + '\n\n— ' + n + '\n(Sent from jvghvac.com/plan)');
+  });
+})();
+</script>
+</body>
+</html>
