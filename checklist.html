@@ -1,0 +1,183 @@
+---
+layout: null
+permalink: /checklist/
+sitemap: false
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Inspection Checklist | JVG</title>
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<style>
+  :root {
+    --cream:#FAF9F5; --card:#FFFFFF; --ink:#20242E; --muted:#71767F;
+    --navy:#2A3566; --red:#C53A1D; --line:#E7E3DA; --ok:#2F7D46; --ok-bg:#E9F4EC; --warn:#C53A1D; --warn-bg:#FBECE8;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--cream); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px; line-height:1.45; }
+  .page { max-width:640px; margin:0 auto; padding:20px 16px 48px; }
+  header { display:flex; align-items:center; gap:12px; margin-bottom:6px; }
+  header img { height:54px; width:auto; }
+  h1 { font-size:19px; font-weight:800; color:var(--navy); margin:0; line-height:1.2; }
+  .sub { font-size:12.5px; color:var(--muted); margin:2px 0 0; }
+  .disclaimer { font-size:12.5px; color:var(--red); font-weight:600; margin:10px 0 16px; }
+
+  .job { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; margin-bottom:14px;
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .job label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); display:block; margin-bottom:3px; }
+  .job input { width:100%; font:inherit; font-size:16px; padding:9px 10px; border:1px solid var(--line); border-radius:8px; background:var(--cream); }
+  .job .full { grid-column:1 / -1; }
+
+  .item { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:8px;
+    display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; }
+  .item p { margin:0; font-size:14.5px; }
+  .toggles { display:flex; gap:6px; }
+  .tg { border:1.5px solid var(--line); background:var(--card); border-radius:8px; padding:9px 12px;
+    font:inherit; font-size:13px; font-weight:700; cursor:pointer; color:var(--muted); min-width:52px; }
+  .tg.on-ok { background:var(--ok-bg); border-color:var(--ok); color:var(--ok); }
+  .tg.on-warn { background:var(--warn-bg); border-color:var(--warn); color:var(--warn); }
+
+  textarea { width:100%; font:inherit; font-size:16px; padding:11px 12px; border:1px solid var(--line);
+    border-radius:10px; background:var(--card); min-height:74px; resize:vertical; margin:6px 0 16px; }
+  .actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .btn { border:0; border-radius:10px; cursor:pointer; padding:15px 12px; font:inherit; font-weight:700; font-size:15px; }
+  .btn--share { background:var(--red); color:#fff; grid-column:1 / -1; }
+  .btn--print { background:var(--navy); color:#fff; }
+  .btn--reset { background:var(--card); color:var(--muted); border:1.5px solid var(--line); }
+  .hint { text-align:center; font-size:12.5px; color:var(--muted); margin-top:12px; }
+
+  .sig { display:none; }
+
+  @media print {
+    body { background:#fff; font-size:13px; }
+    .page { max-width:none; padding:0; }
+    .btn, .actions, .hint { display:none !important; }
+    .item { break-inside:avoid; padding:7px 10px; margin-bottom:5px; }
+    .tg { min-width:44px; padding:5px 8px; }
+    .tg:not(.on-ok):not(.on-warn) { color:#bbb; }
+    textarea { min-height:56px; }
+    .sig { display:grid; grid-template-columns:2fr 1fr; gap:24px; margin-top:26px; }
+    .sig div { border-top:1px solid #999; padding-top:4px; font-size:11px; color:#666; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <img src="/assets/images/jvg-logo.png" alt="JVG Cooling &amp; Heating Solutions">
+    <div>
+      <h1>Preventative Maintenance Inspection</h1>
+      <p class="sub">Lic. #1103018 · (707) 531-9216 · jvghvac.com</p>
+    </div>
+  </header>
+  <p class="disclaimer">Visual and operational inspection only — no repairs, cleaning, or component replacements included in this visit.</p>
+
+  <div class="job">
+    <div><label for="cname">Customer</label><input id="cname" type="text" data-save></div>
+    <div><label for="cdate">Date</label><input id="cdate" type="text" data-save></div>
+    <div class="full"><label for="caddr">Address</label><input id="caddr" type="text" data-save></div>
+  </div>
+
+  <div id="items"></div>
+
+  <label class="sub" for="notes" style="font-weight:700">Notes / recommendations</label>
+  <textarea id="notes" data-save placeholder="Anything the customer should know…"></textarea>
+
+  <div class="actions">
+    <button class="btn btn--share" id="share">Send summary (text or email)</button>
+    <button class="btn btn--print" onclick="window.print()">Print</button>
+    <button class="btn btn--reset" id="reset">Reset for next job</button>
+  </div>
+  <p class="hint">Everything saves on this phone automatically — nothing is uploaded.</p>
+
+  <div class="sig"><div>Customer signature</div><div>Date</div></div>
+</div>
+
+<script>
+(function(){
+  var ITEMS = [
+    "Inspect the blower motor and fan for visible wear or damage",
+    "Inspect and test the ignition system and pilot assembly for proper operation",
+    "Verify and test all safety controls and limit switches for correct function",
+    "Inspect accessible gas piping and valves for signs of leaks or corrosion",
+    "Inspect the venting system for blockages or damage",
+    "Check carbon monoxide levels in the living space with appropriate test instruments",
+    "Examine the heat exchanger for visible cracks, corrosion, or damage",
+    "Inspect the condenser coil for visible damage, debris buildup, or restricted airflow",
+    "Inspect and tighten accessible electrical connections as needed for safe operation",
+    "Check thermostat operation and basic calibration for accurate temperature control",
+    "Test the furnace cycle for proper ignition, operation, and shutdown"
+  ];
+  var KEY = "jvg-checklist";
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch(e) {}
+
+  var wrap = document.getElementById("items");
+  ITEMS.forEach(function(txt, i){
+    var row = document.createElement("div"); row.className = "item";
+    var p = document.createElement("p"); p.textContent = (i+1) + ". " + txt;
+    var t = document.createElement("div"); t.className = "toggles";
+    ["OK","Attn"].forEach(function(lbl){
+      var b = document.createElement("button"); b.className = "tg"; b.textContent = lbl;
+      b.addEventListener("click", function(){
+        state["i"+i] = (state["i"+i] === lbl) ? "" : lbl;
+        paint(); save();
+      });
+      b.dataset.i = i; b.dataset.lbl = lbl;
+      t.appendChild(b);
+    });
+    row.appendChild(p); row.appendChild(t); wrap.appendChild(row);
+  });
+
+  function paint(){
+    document.querySelectorAll(".tg").forEach(function(b){
+      var v = state["i"+b.dataset.i];
+      b.classList.toggle("on-ok", v === "OK" && b.dataset.lbl === "OK");
+      b.classList.toggle("on-warn", v === "Attn" && b.dataset.lbl === "Attn");
+    });
+  }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} }
+
+  document.querySelectorAll("[data-save]").forEach(function(el){
+    if (state[el.id]) el.value = state[el.id];
+    el.addEventListener("input", function(){ state[el.id] = el.value; save(); });
+  });
+  if (!document.getElementById("cdate").value) {
+    var d = new Date().toLocaleDateString("en-US");
+    document.getElementById("cdate").value = d; state["cdate"] = d; save();
+  }
+  paint();
+
+  document.getElementById("share").addEventListener("click", function(){
+    var ok = [], warn = [];
+    ITEMS.forEach(function(txt, i){
+      if (state["i"+i] === "OK") ok.push(i+1);
+      if (state["i"+i] === "Attn") warn.push((i+1) + ". " + txt);
+    });
+    var msg = "JVG Cooling & Heating Solutions — Maintenance Inspection\n"
+      + "Customer: " + (state.cname || "") + "\nDate: " + (state.cdate || "") + "\n\n"
+      + "Checked OK: items " + (ok.join(", ") || "—") + "\n"
+      + (warn.length ? "Needs attention:\n" + warn.join("\n") + "\n" : "Needs attention: none\n")
+      + (state.notes ? "\nNotes: " + state.notes + "\n" : "")
+      + "\nQuestions? Call or text (707) 531-9216";
+    if (navigator.share) { navigator.share({ text: msg }).catch(function(){}); }
+    else { location.href = "sms:?&body=" + encodeURIComponent(msg); }
+  });
+
+  document.getElementById("reset").addEventListener("click", function(){
+    if (!confirm("Clear everything for the next job?")) return;
+    state = {}; save();
+    document.querySelectorAll("[data-save]").forEach(function(el){ el.value = ""; });
+    var d = new Date().toLocaleDateString("en-US");
+    document.getElementById("cdate").value = d; state["cdate"] = d; save();
+    paint();
+  });
+})();
+</script>
+</body>
+</html>
