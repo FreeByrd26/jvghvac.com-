@@ -6,7 +6,7 @@ title: JVG Cooling & Heating Solutions
 description: >-
   Family-operated HVAC and electrical contractor serving Napa Valley
   and Sonoma County, backed by 25 years of hands-on experience.
-  Heat pumps, AC, heating, electrical. $69.99 preventative maintenance and diagnostic.
+  Heat pumps, AC, heating, electrical. $69.99 preventative maintenance inspection.
 url: https://jvghvac.com
 baseurl: ""
 
@@ -18,6 +18,7 @@ license_number: "1103018"
 license_full: "Contractors License No. 1103018"
 years_experience: 25
 slogan: "Family Operated Business Providing Comfort and Solutions"
+tagline: "Heating, cooling & clean air aren't luxuries — they're essential for your family's safety and comfort."
 
 # Service area
 service_region_primary: "Napa Valley"
@@ -26,7 +27,7 @@ service_state: "California"
 
 # Offer
 offer_price: "69.99"
-offer_name: "Preventative Maintenance & Diagnostic"
+offer_name: "Preventative Maintenance Inspection (No Repairs Included)"
 
 # Lead form — paste the Google Apps Script Web App URL here to send submissions
 # to the Google Sheet (see GOOGLE-LEAD-FORM-SETUP.md). Leave blank until set up.
