@@ -990,3 +990,5 @@ a { color: inherit; }
 .jvg-article__card h2 { font-size: 21px; margin: 0 0 10px; }
 .jvg-article__card p { color: var(--muted); margin: 0 0 12px; }
 .jvg-article__more { color: var(--accent); font-weight: 700; font-size: 15px; }
+
+.jvg-areas__grid a { color: inherit; text-decoration: none; display: block; }
