@@ -54,6 +54,7 @@ defaults:
       layout: default
 
 exclude:
+  - generate_service_city_pages.py
   - generate_city_pages.py
   - README.md
   - Gemfile
