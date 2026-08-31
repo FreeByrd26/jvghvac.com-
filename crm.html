@@ -1,0 +1,261 @@
+---
+layout: null
+permalink: /crm/
+sitemap: false
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>JVG Leads | CRM</title>
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<style>
+  :root {
+    --cream:#FAF9F5; --card:#FFFFFF; --ink:#20242E; --muted:#71767F;
+    --navy:#2A3566; --red:#C53A1D; --red-d:#9E2D14; --line:#E7E3DA;
+    --new:#C53A1D; --contacted:#B87E14; --scheduled:#2A3566; --done:#2F7D46; --lost:#71767F;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--cream); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px; line-height:1.45; }
+  .wrap { max-width:640px; margin:0 auto; padding:16px 14px 90px; }
+  header.top { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  header.top img { height:46px; }
+  header.top h1 { font-size:17px; font-weight:800; color:var(--navy); margin:0; }
+  header.top .sub { font-size:11.5px; color:var(--muted); }
+  .spacer { flex:1; }
+  .signout { background:none; border:0; color:var(--muted); font-size:12.5px; cursor:pointer; text-decoration:underline; }
+
+  /* auth */
+  .auth { background:var(--card); border:1px solid var(--line); border-top:4px solid var(--red);
+    border-radius:12px; padding:26px 20px; margin-top:8vh; text-align:center; }
+  .auth h2 { color:var(--navy); font-size:20px; margin:0 0 6px; }
+  .auth p { color:var(--muted); font-size:14px; margin:0 0 16px; }
+  .auth input { width:100%; font:inherit; font-size:16px; padding:13px 14px; border:1px solid var(--line);
+    border-radius:9px; background:var(--cream); margin-bottom:10px; }
+  .btn { width:100%; border:0; border-radius:10px; cursor:pointer; padding:14px; font:inherit;
+    font-weight:700; font-size:16px; background:var(--red); color:#fff; }
+  .btn:disabled { opacity:.6; }
+  .auth .msg { margin-top:12px; font-size:14px; font-weight:600; }
+
+  /* glance bar */
+  .glance { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px; }
+  .glance div { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 6px; text-align:center; }
+  .glance b { display:block; font-size:22px; color:var(--navy); }
+  .glance span { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+  .glance .hot b { color:var(--red); }
+
+  /* controls */
+  .controls { display:flex; gap:8px; margin-bottom:12px; }
+  .controls select { flex:1; font:inherit; font-size:14px; padding:10px; border:1px solid var(--line); border-radius:9px; background:var(--card); }
+  .controls button { font:inherit; font-size:14px; font-weight:700; padding:10px 14px; border:1.5px solid var(--line);
+    border-radius:9px; background:var(--card); cursor:pointer; color:var(--navy); }
+
+  /* lead cards */
+  .lead { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; }
+  .lead .row1 { display:flex; align-items:center; gap:8px; }
+  .lead .name { font-weight:800; font-size:16.5px; color:var(--ink); flex:1; }
+  .status { border:0; border-radius:999px; padding:6px 12px; font:inherit; font-size:12px; font-weight:800;
+    color:#fff; cursor:pointer; text-transform:uppercase; letter-spacing:.04em; }
+  .status.new{background:var(--new)} .status.contacted{background:var(--contacted)}
+  .status.scheduled{background:var(--scheduled)} .status.done{background:var(--done)} .status.lost{background:var(--lost)}
+  .lead .meta { font-size:13px; color:var(--muted); margin:6px 0 8px; }
+  .lead .acts { display:flex; gap:8px; flex-wrap:wrap; }
+  .acts a, .acts button { font:inherit; font-size:13.5px; font-weight:700; text-decoration:none; cursor:pointer;
+    padding:9px 13px; border-radius:8px; border:1.5px solid var(--line); background:var(--cream); color:var(--navy); }
+  .acts a.call { background:var(--red); border-color:var(--red); color:#fff; }
+  .lead .notes { margin-top:10px; }
+  .lead .notes textarea { width:100%; font:inherit; font-size:14px; padding:10px; border:1px solid var(--line);
+    border-radius:8px; background:var(--cream); min-height:44px; resize:vertical; }
+  .lead .saved { font-size:11.5px; color:var(--done); font-weight:700; display:none; }
+  .del { margin-left:auto; color:var(--muted); border-color:transparent !important; background:none !important; }
+
+  .empty { text-align:center; color:var(--muted); padding:40px 10px; }
+
+  /* add button + form */
+  .fab { position:fixed; right:16px; bottom:16px; width:58px; height:58px; border-radius:50%; border:0;
+    background:var(--red); color:#fff; font-size:30px; font-weight:700; cursor:pointer; box-shadow:0 8px 22px rgba(197,58,29,.4); }
+  .addform { background:var(--card); border:1px solid var(--line); border-top:4px solid var(--navy);
+    border-radius:12px; padding:16px; margin-bottom:12px; display:none; }
+  .addform input { width:100%; font:inherit; font-size:16px; padding:11px 12px; border:1px solid var(--line);
+    border-radius:8px; background:var(--cream); margin-bottom:8px; }
+  .addform .btn { margin-top:4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <img src="/assets/images/jvg-logo.png" alt="JVG">
+    <div><h1>JVG Leads</h1><div class="sub" id="whoami"></div></div>
+    <div class="spacer"></div>
+    <button class="signout" id="signout" style="display:none">sign out</button>
+  </header>
+
+  <div class="auth" id="auth" style="display:none">
+    <h2>Sign in</h2>
+    <p>Enter your email — we'll send you a sign-in link. No passwords to remember.</p>
+    <input type="email" id="email" placeholder="you@email.com" autocomplete="email">
+    <button class="btn" id="sendlink">Email me a sign-in link</button>
+    <div class="msg" id="authmsg"></div>
+  </div>
+
+  <div id="app" style="display:none">
+    <div class="glance">
+      <div class="hot"><b id="g-new">–</b><span>New</span></div>
+      <div><b id="g-week">–</b><span>This week</span></div>
+      <div><b id="g-sched">–</b><span>Scheduled</span></div>
+    </div>
+
+    <div class="controls">
+      <select id="filter">
+        <option value="active">Active (new + contacted + scheduled)</option>
+        <option value="new">New only</option>
+        <option value="all">Everything</option>
+        <option value="done">Done</option>
+        <option value="lost">Lost</option>
+      </select>
+      <button id="refresh">↻</button>
+    </div>
+
+    <div class="addform" id="addform">
+      <input id="a-name" placeholder="Name *">
+      <input id="a-phone" placeholder="Phone" type="tel">
+      <input id="a-email" placeholder="Email" type="email">
+      <input id="a-city" placeholder="City">
+      <button class="btn" id="a-save">Add lead</button>
+    </div>
+
+    <div id="list"></div>
+  </div>
+</div>
+<button class="fab" id="fab" style="display:none">+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const SB_URL = "https://zsaasblsmjguacebjetr.supabase.co";
+const SB_KEY = "sb_publishable_B1lxGQ4zQ0LNUy4LXin1Ow_9UIAYAHt";
+const sb = window.supabase.createClient(SB_URL, SB_KEY);
+const STATUSES = ["new","contacted","scheduled","done","lost"];
+const $ = id => document.getElementById(id);
+
+async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) showApp(session); else showAuth();
+  sb.auth.onAuthStateChange((_e, s) => { if (s) showApp(s); });
+}
+
+function showAuth() { $("auth").style.display = "block"; }
+
+$("sendlink").onclick = async () => {
+  const email = $("email").value.trim();
+  if (!email) return;
+  $("sendlink").disabled = true;
+  const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: "https://jvghvac.com/crm/" } });
+  $("authmsg").textContent = error ? ("Hmm: " + error.message) : "Check your email and tap the link. You can close this tab.";
+  $("authmsg").style.color = error ? "var(--red)" : "var(--done)";
+  $("sendlink").disabled = false;
+};
+
+async function showApp(session) {
+  $("auth").style.display = "none";
+  $("app").style.display = "block";
+  $("fab").style.display = "block";
+  $("signout").style.display = "inline";
+  $("whoami").textContent = session.user.email;
+  load();
+}
+
+$("signout").onclick = async () => { await sb.auth.signOut(); location.reload(); };
+$("refresh").onclick = () => load();
+$("filter").onchange = () => load();
+$("fab").onclick = () => { const f = $("addform"); f.style.display = f.style.display === "block" ? "none" : "block"; };
+
+$("a-save").onclick = async () => {
+  const name = $("a-name").value.trim();
+  if (!name) return alert("Name is required");
+  const { error } = await sb.from("leads").insert({
+    name, phone: $("a-phone").value.trim() || null,
+    email: $("a-email").value.trim() || null,
+    city: $("a-city").value.trim() || null,
+    source: "manual"
+  });
+  if (error) return alert(error.message);
+  ["a-name","a-phone","a-email","a-city"].forEach(i => $(i).value = "");
+  $("addform").style.display = "none";
+  load();
+};
+
+async function load() {
+  let q = sb.from("leads").select("*").order("created_at", { ascending: false }).limit(300);
+  const f = $("filter").value;
+  if (f === "active") q = q.in("status", ["new","contacted","scheduled"]);
+  else if (f !== "all") q = q.eq("status", f);
+  const { data, error } = await q;
+  if (error) { $("list").innerHTML = '<div class="empty">Could not load: ' + esc(error.message) + '</div>'; return; }
+  render(data || []);
+  glance();
+}
+
+async function glance() {
+  const weekAgo = new Date(Date.now() - 7*864e5).toISOString();
+  const [n, w, s] = await Promise.all([
+    sb.from("leads").select("id", { count: "exact", head: true }).eq("status","new"),
+    sb.from("leads").select("id", { count: "exact", head: true }).gte("created_at", weekAgo),
+    sb.from("leads").select("id", { count: "exact", head: true }).eq("status","scheduled"),
+  ]);
+  $("g-new").textContent = n.count ?? "–";
+  $("g-week").textContent = w.count ?? "–";
+  $("g-sched").textContent = s.count ?? "–";
+}
+
+function esc(t){ return (t||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function render(leads) {
+  if (!leads.length) { $("list").innerHTML = '<div class="empty">No leads here yet.<br>New website leads land automatically.</div>'; return; }
+  $("list").innerHTML = leads.map(l => {
+    const when = new Date(l.created_at).toLocaleDateString("en-US", { month:"short", day:"numeric" });
+    const meta = [when, l.city, l.source].filter(Boolean).join(" · ");
+    const tel = (l.phone||"").replace(/[^0-9+]/g,"");
+    return `<div class="lead" data-id="${l.id}">
+      <div class="row1">
+        <div class="name">${esc(l.name)}</div>
+        <button class="status ${l.status}" onclick="cycle('${l.id}','${l.status}')">${l.status}</button>
+      </div>
+      <div class="meta">${esc(meta)}${l.email ? " · " + esc(l.email) : ""}</div>
+      <div class="acts">
+        ${tel ? `<a class="call" href="tel:${tel}">Call</a><a href="sms:${tel}">Text</a>` : ""}
+        ${l.email ? `<a href="mailto:${esc(l.email)}">Email</a>` : ""}
+        <button class="del" onclick="del('${l.id}')">✕</button>
+      </div>
+      <div class="notes">
+        <textarea placeholder="Notes…" onblur="saveNotes('${l.id}', this)">${esc(l.notes||"")}</textarea>
+        <span class="saved">saved ✓</span>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+window.cycle = async (id, cur) => {
+  const next = STATUSES[(STATUSES.indexOf(cur) + 1) % STATUSES.length];
+  const { error } = await sb.from("leads").update({ status: next }).eq("id", id);
+  if (!error) load(); else alert(error.message);
+};
+
+window.saveNotes = async (id, ta) => {
+  const { error } = await sb.from("leads").update({ notes: ta.value }).eq("id", id);
+  if (!error) { const s = ta.parentElement.querySelector(".saved"); s.style.display = "inline"; setTimeout(() => s.style.display = "none", 1500); }
+};
+
+window.del = async (id) => {
+  if (!confirm("Delete this lead? This can't be undone.")) return;
+  const { error } = await sb.from("leads").delete().eq("id", id);
+  if (!error) load(); else alert(error.message);
+};
+
+init();
+</script>
+</body>
+</html>

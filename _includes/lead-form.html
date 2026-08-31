@@ -65,11 +65,26 @@
         ? "Thanks! We've got your info and will call shortly to schedule."
         : "Thanks! Please call us at " + phone + " to lock in your appointment.";
     };
-    if (!endpoint) { done(false); return; }
-    var data = new URLSearchParams(new FormData(form)); // x-www-form-urlencoded, no CORS preflight
-    fetch(endpoint, { method: 'POST', mode: 'no-cors', body: data })
-      .then(function () { done(true); })
+    // Leads land directly in the JVG CRM (Supabase; anon key is insert-only by RLS design)
+    var SB_URL = "https://zsaasblsmjguacebjetr.supabase.co";
+    var SB_KEY = "sb_publishable_B1lxGQ4zQ0LNUy4LXin1Ow_9UIAYAHt";
+    fetch(SB_URL + "/rest/v1/leads", {
+      method: "POST",
+      headers: {
+        "apikey": SB_KEY,
+        "Authorization": "Bearer " + SB_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({
+        name: form.name.value.trim(),
+        phone: form.phone.value.trim(),
+        email: form.email.value.trim(),
+        source: "website: " + (form.source.value || "unknown")
+      })
+    }).then(function (r) { done(r.ok); })
       .catch(function () { done(false); });
+    if (endpoint) { /* legacy Apps Script endpoint no longer used */ }
   });
 })();
 </script>
