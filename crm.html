@@ -75,6 +75,16 @@ sitemap: false
   /* lead rows */
   .lead { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:8px; }
   .lead.gold { border-color:#E0C878; box-shadow:0 0 0 1px #E0C878 inset; }
+  .lead.frozen { background:#F3F6FA; border-color:#D4DEEA; }
+  .lead.frozen .nm, .lead.frozen .sub { opacity:.8; }
+  .lead.newin { animation:newin 2.6s ease-out; }
+  @keyframes newin { 0% { box-shadow:0 0 0 3px var(--red); background:#FDEFE9; } 100% { box-shadow:none; } }
+  .newbadge { display:inline-block; font-size:10px; font-weight:800; letter-spacing:.05em; color:#fff;
+    background:var(--red); border-radius:4px; padding:2px 6px; vertical-align:1px; }
+  .toast { position:fixed; left:50%; transform:translateX(-50%); bottom:88px; z-index:100;
+    background:var(--red); color:#fff; font-weight:800; font-size:14px; padding:12px 18px;
+    border-radius:999px; box-shadow:0 10px 26px rgba(197,58,29,.45); animation:toastin .3s ease-out; }
+  @keyframes toastin { from { opacity:0; transform:translateX(-50%) translateY(10px); } }
   .lrow { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   .avatar { width:34px; height:34px; border-radius:50%; background:var(--navy); color:#fff; font-size:12px;
     font-weight:800; display:flex; align-items:center; justify-content:center; flex:0 0 34px; }
@@ -159,7 +169,7 @@ sitemap: false
     <div class="pills">
       <button class="pill hot on" data-f="hot">🔥 HOT</button>
       <button class="pill" data-f="warm">WARM</button>
-      <button class="pill" data-f="cold">COLD</button>
+      <button class="pill" data-f="cold">🧊 COLD</button>
       <button class="pill" data-f="all">ALL LEADS</button>
       <button class="pill due" data-f="due">📌 DUE <span class="n" id="p-due"></span></button>
     </div>
@@ -169,7 +179,7 @@ sitemap: false
       <button id="refresh">↻</button>
     </div>
 
-    <div class="banner">⭐ <div><b>Start with the gold rows</b> — website leads from the last 7 days with a phone number. Freshest memory, most likely to answer.</div></div>
+    <div class="banner">⭐ <div><b>Start with the gold rows</b> — fresh website leads with a phone number. 🔥 sets itself: new website leads and anything due today. 🧊 means the freezer — no touch in 14 days. Call to revive it or mark it Lost.</div></div>
 
     <div class="addform" id="addform">
       <div class="grid">
@@ -208,6 +218,7 @@ const DEMO_ROWS = [
   { id:"d5", name:"Grace Kim", phone:"7075551205", email:"gracek@example.com", city:"Fairfield", source:"website: fairfield", status:"scheduled", temp:"hot", owner:"Dad", next_action: daysAgo(-3).slice(0,10), notes:"$69.99 inspection booked Thursday 9am", created_at: daysAgo(6) },
   { id:"d6", name:"Miguel Torres", phone:"7075551206", email:"", city:"Napa", source:"manual", status:"done", temp:"warm", owner:"Hazi", next_action:null, notes:"Furnace repair complete — ask for review", created_at: daysAgo(12) },
   { id:"d7", name:"Janet Fields", phone:"7075551207", email:"jfields@example.com", city:"Petaluma", source:"website: petaluma", status:"lost", temp:"cold", owner:null, next_action:null, notes:"Went with another quote", created_at: daysAgo(20) },
+  { id:"d8", name:"Dale Whitfield", phone:"7075551208", email:"", city:"Glen Ellen", source:"website: glen-ellen", status:"contacted", temp:"warm", owner:"Dad", next_action:null, notes:"Quoted duct repair — never called back. In the freezer.", created_at: daysAgo(24) },
 ];
 
 async function init() {
@@ -219,6 +230,9 @@ async function init() {
     b.textContent = "DEMO MODE — sample data only. Changes are not saved. Remove ?demo from the URL for the real board.";
     document.body.appendChild(b);
     document.body.style.paddingTop = "30px";
+    setTimeout(() => landLead({ id:"d9", name:"Priya Nair", phone:"7075551209", email:"priyan@example.com",
+      city:"Napa", source:"website: home", status:"new", temp:"hot", owner:null, next_action:null,
+      notes:"", created_at: new Date().toISOString() }), 6000);
     return;
   }
   const { data: { session } } = await sb.auth.getSession();
@@ -236,7 +250,29 @@ $("sendlink").onclick = async () => {
 function showApp() {
   $("auth").style.display = "none"; $("app").style.display = "block";
   $("fab").style.display = "block"; $("signout").style.display = "inline"; $("export").style.display = "inline";
-  load();
+  load(); watchLeads();
+}
+
+/* Live board: new website leads land the moment the form is submitted,
+   with a 60s refresh as backstop (also re-checks the freezer rule). */
+let WATCHING = false;
+function watchLeads() {
+  if (WATCHING || DEMO) return; WATCHING = true;
+  sb.channel("leads-live")
+    .on("postgres_changes", { event:"INSERT", schema:"public", table:"leads" }, p => landLead(p.new))
+    .subscribe();
+  setInterval(load, 60000);
+}
+function landLead(row) {
+  if (ROWS.some(x => x.id === row.id)) return;
+  row._justIn = true;
+  ROWS.unshift(row); stats(); render();
+  toast("🔥 New lead: " + row.name + (row.city ? " · " + row.city : ""));
+  setTimeout(() => { delete row._justIn; render(); }, 5000);
+}
+function toast(msg) {
+  const t = document.createElement("div"); t.className = "toast"; t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 6000);
 }
 $("signout").onclick = async () => { await sb.auth.signOut(); location.reload(); };
 $("refresh").onclick = () => load();
@@ -274,6 +310,24 @@ async function load() {
 function isDue(l) { return l.next_action && l.next_action <= today() && !["done","lost"].includes(l.status); }
 function isGold(l) { return l.phone && (l.source||"").startsWith("website") && (Date.now() - new Date(l.created_at)) < 7*864e5 && l.status === "new"; }
 
+/* ── Hazi's temperature rules — the board sets these itself ──
+   🔥 HOT  : new website lead (under 7 days, not yet moved) or follow-up due today
+   🧊 COLD : the freezer — no touch in 14+ days and no future follow-up
+   Any touch (stage, owner, date, chip tap) counts as activity and thaws it. */
+const FREEZE_DAYS = 14;
+const TLABEL = { hot:"🔥 hot", warm:"warm", cold:"🧊 cold" };
+function lastActivity(l) { return new Date(l.last_touch || l.created_at); }
+function isFrozen(l) {
+  if (["done","lost"].includes(l.status)) return false;
+  if (l.next_action && l.next_action >= today()) return false;
+  return (Date.now() - lastActivity(l)) > FREEZE_DAYS*864e5;
+}
+function effTemp(l) {
+  if (isFrozen(l)) return "cold";
+  if (isDue(l) || isGold(l)) return "hot";
+  return l.temp || "warm";
+}
+
 function stats() {
   const n = s => ROWS.filter(l => l.status === s).length;
   const due = ROWS.filter(isDue).length;
@@ -291,24 +345,27 @@ function initials(n){ return n.split(/\s+/).map(w => w[0]).join("").slice(0,2).t
 function render() {
   let rows = ROWS;
   if (FILTER === "due") rows = rows.filter(isDue);
-  else if (FILTER !== "all") rows = rows.filter(l => l.temp === FILTER && !["done","lost"].includes(l.status));
+  else if (FILTER !== "all") rows = rows.filter(l => effTemp(l) === FILTER && !["done","lost"].includes(l.status));
   const q = $("q").value.trim().toLowerCase();
   if (q) rows = rows.filter(l => [l.name,l.email,l.phone,l.notes,l.city,l.owner].join(" ").toLowerCase().includes(q));
-  rows = [...rows].sort((a,b) => (isGold(b)-isGold(a)) || (isDue(b)-isDue(a)) || (a.created_at < b.created_at ? 1 : -1));
+  const rank = { hot:0, warm:1, cold:2 };
+  rows = [...rows].sort((a,b) => (isGold(b)-isGold(a)) || (isDue(b)-isDue(a)) || (rank[effTemp(a)]-rank[effTemp(b)]) || (a.created_at < b.created_at ? 1 : -1));
   if (!rows.length) { $("list").innerHTML = '<div class="empty">Nothing here. New website leads land automatically.</div>'; return; }
   $("list").innerHTML = rows.map(l => {
     const tel = (l.phone||"").replace(/[^0-9+]/g,"");
     const late = isDue(l);
     const stageOpts = STAGES.map(([v,t]) => `<option value="${v}" ${l.status===v?"selected":""}>${t}</option>`).join("");
     const ownerOpts = OWNERS.map(o => `<option value="${o}" ${(l.owner||"")===o?"selected":""}>${o||"Owner…"}</option>`).join("");
-    return `<div class="lead ${isGold(l) ? "gold" : ""}">
+    const t = effTemp(l);
+    const justIn = l._justIn && l.status === "new" && (Date.now() - new Date(l.created_at)) < 864e5;
+    return `<div class="lead ${isGold(l) ? "gold" : ""} ${isFrozen(l) ? "frozen" : ""} ${l._justIn ? "newin" : ""}">
       <div class="lrow">
         <div class="avatar">${initials(l.name)}</div>
         <div class="who">
-          <div class="nm">${esc(l.name)} ${late ? '<span class="overdue">📌 DUE</span>' : ""}</div>
+          <div class="nm">${esc(l.name)} ${justIn ? '<span class="newbadge">🔥 NEW</span>' : ""} ${late ? '<span class="overdue">📌 DUE</span>' : ""}</div>
           <div class="sub">${[l.phone, l.email, l.city].filter(Boolean).map(esc).join(" · ") || "no contact info"}</div>
         </div>
-        <button class="tchip ${l.temp}" onclick="cycleTemp('${l.id}','${l.temp}')">${l.temp}</button>
+        <button class="tchip ${t}" onclick="cycleTemp('${l.id}','${t}')">${TLABEL[t]}</button>
         <select class="stage" onchange="setF('${l.id}','status',this.value)">${stageOpts}</select>
         <select class="owner" onchange="setF('${l.id}','owner',this.value||null)">${ownerOpts}</select>
         <input class="fup ${late ? "late" : ""}" type="date" value="${l.next_action||""}" onchange="setF('${l.id}','next_action',this.value||null)">
