@@ -84,6 +84,25 @@
       })
     }).then(function (r) { done(r.ok); })
       .catch(function () { done(false); });
+    // Instant email alert to Cam + Hazi (FormSubmit, free) — fire-and-forget,
+    // never blocks or fails the lead capture above
+    try {
+      fetch("https://formsubmit.co/ajax/cameron@freebyrd.pro", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: "🔥 New JVG lead: " + form.name.value.trim(),
+          _cc: "jvghvac@gmail.com",
+          _template: "table",
+          _captcha: "false",
+          Name: form.name.value.trim(),
+          Phone: form.phone.value.trim(),
+          Email: form.email.value.trim(),
+          Page: form.source.value || "unknown",
+          "Hit List": "https://jvghvac.com/crm/"
+        })
+      }).catch(function () {});
+    } catch (e) {}
     if (endpoint) { /* legacy Apps Script endpoint no longer used */ }
   });
 })();
