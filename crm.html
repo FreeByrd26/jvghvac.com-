@@ -198,8 +198,29 @@ const TEMPS = ["hot","warm","cold"];
 const OWNERS = ["","Hazi","Dad","Cam"];
 const $ = id => document.getElementById(id);
 let FILTER = "hot", ROWS = [];
+const DEMO = new URLSearchParams(location.search).has("demo");
+const daysAgo = d => new Date(Date.now() - d*864e5).toISOString();
+const DEMO_ROWS = [
+  { id:"d1", name:"Sarah Mitchell", phone:"7075551201", email:"sarahm@example.com", city:"Napa", source:"website: home", status:"new", temp:"hot", owner:null, next_action:null, notes:"", created_at: daysAgo(1) },
+  { id:"d2", name:"Robert Chen", phone:"7075551202", email:"rchen@example.com", city:"Vacaville", source:"website: vacaville", status:"new", temp:"hot", owner:"Hazi", next_action: new Date().toISOString().slice(0,10), notes:"A/C died during heat wave — wants estimate ASAP", created_at: daysAgo(2) },
+  { id:"d3", name:"Linda Alvarez", phone:"7075551203", email:"", city:"Sonoma", source:"manual", status:"contacted", temp:"warm", owner:"Dad", next_action: daysAgo(1).slice(0,10), notes:"Called once, left voicemail. Wants heat pump info for 2027.", created_at: daysAgo(5) },
+  { id:"d4", name:"Tom Barrett", phone:"", email:"tbarrett@example.com", city:"St. Helena", source:"website: st-helena", status:"contacted", temp:"warm", owner:"Hazi", next_action:null, notes:"Guest house mini-split quote requested", created_at: daysAgo(9) },
+  { id:"d5", name:"Grace Kim", phone:"7075551205", email:"gracek@example.com", city:"Fairfield", source:"website: fairfield", status:"scheduled", temp:"hot", owner:"Dad", next_action: daysAgo(-3).slice(0,10), notes:"$69.99 inspection booked Thursday 9am", created_at: daysAgo(6) },
+  { id:"d6", name:"Miguel Torres", phone:"7075551206", email:"", city:"Napa", source:"manual", status:"done", temp:"warm", owner:"Hazi", next_action:null, notes:"Furnace repair complete — ask for review", created_at: daysAgo(12) },
+  { id:"d7", name:"Janet Fields", phone:"7075551207", email:"jfields@example.com", city:"Petaluma", source:"website: petaluma", status:"lost", temp:"cold", owner:null, next_action:null, notes:"Went with another quote", created_at: daysAgo(20) },
+];
 
 async function init() {
+  if (DEMO) {
+    ROWS = DEMO_ROWS;
+    showApp();
+    const b = document.createElement("div");
+    b.style.cssText = "position:fixed;top:0;left:0;right:0;z-index:99;background:var(--navy);color:#fff;text-align:center;font-size:12.5px;font-weight:700;padding:6px;letter-spacing:.05em";
+    b.textContent = "DEMO MODE — sample data only. Changes are not saved. Remove ?demo from the URL for the real board.";
+    document.body.appendChild(b);
+    document.body.style.paddingTop = "30px";
+    return;
+  }
   const { data: { session } } = await sb.auth.getSession();
   if (session) showApp(session); else $("auth").style.display = "block";
   sb.auth.onAuthStateChange((_e, s) => { if (s) showApp(s); });
@@ -228,11 +249,15 @@ document.querySelectorAll(".pill").forEach(p => p.onclick = () => {
 
 $("a-save").onclick = async () => {
   const name = $("a-name").value.trim(); if (!name) return alert("Name is required");
-  const { error } = await sb.from("leads").insert({
-    name, phone: $("a-phone").value.trim() || null, email: $("a-email").value.trim() || null,
+  const row = { name, phone: $("a-phone").value.trim() || null, email: $("a-email").value.trim() || null,
     city: $("a-city").value.trim() || null, temp: $("a-temp").value,
-    owner: $("a-owner").value || null, source: "manual" });
-  if (error) return alert(error.message);
+    owner: $("a-owner").value || null, source: "manual" };
+  if (DEMO) {
+    ROWS.unshift({ ...row, id: "d" + Date.now(), status:"new", next_action:null, notes:"", created_at: new Date().toISOString() });
+  } else {
+    const { error } = await sb.from("leads").insert(row);
+    if (error) return alert(error.message);
+  }
   ["a-name","a-phone","a-email","a-city"].forEach(i => $(i).value = "");
   $("addform").style.display = "none"; load();
 };
@@ -240,6 +265,7 @@ $("a-save").onclick = async () => {
 const today = () => new Date().toISOString().slice(0,10);
 
 async function load() {
+  if (DEMO) { stats(); render(); return; }
   const { data, error } = await sb.from("leads").select("*").order("created_at", { ascending:false }).limit(500);
   if (error) { $("list").innerHTML = '<div class="empty">Could not load: ' + esc(error.message) + '</div>'; return; }
   ROWS = data || []; stats(); render();
@@ -306,20 +332,26 @@ function render() {
 }
 
 window.setF = async (id, field, val) => {
-  const patch = { [field]: val, last_touch: new Date().toISOString() };
-  const { error } = await sb.from("leads").update(patch).eq("id", id);
-  if (error) return alert(error.message);
+  if (!DEMO) {
+    const patch = { [field]: val, last_touch: new Date().toISOString() };
+    const { error } = await sb.from("leads").update(patch).eq("id", id);
+    if (error) return alert(error.message);
+  }
   const r = ROWS.find(x => x.id === id); if (r) r[field] = val;
   stats(); if (field === "status") render();
 };
 window.cycleTemp = (id, cur) => setF(id, "temp", TEMPS[(TEMPS.indexOf(cur)+1)%TEMPS.length]).then(() => render());
 window.saveNotes = async (id, ta) => {
-  const { error } = await sb.from("leads").update({ notes: ta.value }).eq("id", id);
-  if (!error) { const s = ta.parentElement.querySelector(".saved"); s.style.display = "inline"; setTimeout(() => s.style.display="none", 1400);
-    const r = ROWS.find(x => x.id === id); if (r) r.notes = ta.value; }
+  if (!DEMO) {
+    const { error } = await sb.from("leads").update({ notes: ta.value }).eq("id", id);
+    if (error) return;
+  }
+  const s = ta.parentElement.querySelector(".saved"); s.style.display = "inline"; setTimeout(() => s.style.display="none", 1400);
+  const r = ROWS.find(x => x.id === id); if (r) r.notes = ta.value;
 };
 window.del = async (id) => {
   if (!confirm("Delete this lead? This can't be undone.")) return;
+  if (DEMO) { ROWS = ROWS.filter(x => x.id !== id); stats(); render(); return; }
   const { error } = await sb.from("leads").delete().eq("id", id);
   if (!error) load(); else alert(error.message);
 };
