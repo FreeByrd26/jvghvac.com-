@@ -9,30 +9,35 @@ sitemap: false
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>JVG Leads | CRM</title>
+<title>JVG Hit List | CRM</title>
 <link rel="icon" type="image/png" href="/assets/images/favicon.png">
 <style>
   :root {
     --cream:#FAF9F5; --card:#FFFFFF; --ink:#20242E; --muted:#71767F;
-    --navy:#2A3566; --red:#C53A1D; --red-d:#9E2D14; --line:#E7E3DA;
-    --new:#C53A1D; --contacted:#B87E14; --scheduled:#2A3566; --done:#2F7D46; --lost:#71767F;
+    --navy:#2A3566; --navy-d:#1E2747; --red:#C53A1D; --red-d:#9E2D14; --line:#E7E3DA;
+    --gold:#B8860B; --gold-bg:#FBF3DC;
+    --hot:#C53A1D; --warm:#B87E14; --cold:#5B7EA6;
+    --ok:#2F7D46;
   }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--cream); color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    font-size:16px; line-height:1.45; }
-  .wrap { max-width:640px; margin:0 auto; padding:16px 14px 90px; }
-  header.top { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
-  header.top img { height:46px; }
-  header.top h1 { font-size:17px; font-weight:800; color:var(--navy); margin:0; }
-  header.top .sub { font-size:11.5px; color:var(--muted); }
+    font-size:15px; line-height:1.45; }
+  .wrap { max-width:1080px; margin:0 auto; padding:14px 14px 90px; }
+
+  header.top { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  header.top img { height:48px; }
+  .kicker { font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  header.top h1 { font-size:26px; font-weight:800; letter-spacing:-.02em; color:var(--navy); margin:0; line-height:1; }
   .spacer { flex:1; }
-  .signout { background:none; border:0; color:var(--muted); font-size:12.5px; cursor:pointer; text-decoration:underline; }
+  .export, .signout { font:inherit; font-size:12.5px; font-weight:700; cursor:pointer;
+    border:1.5px solid var(--line); background:var(--card); color:var(--navy); border-radius:8px; padding:8px 12px; }
+  .signout { border-color:transparent; background:none; color:var(--muted); text-decoration:underline; }
 
   /* auth */
   .auth { background:var(--card); border:1px solid var(--line); border-top:4px solid var(--red);
-    border-radius:12px; padding:26px 20px; margin-top:8vh; text-align:center; }
-  .auth h2 { color:var(--navy); font-size:20px; margin:0 0 6px; }
+    border-radius:12px; padding:26px 20px; margin:8vh auto 0; max-width:420px; text-align:center; }
+  .auth h2 { color:var(--navy); margin:0 0 6px; }
   .auth p { color:var(--muted); font-size:14px; margin:0 0 16px; }
   .auth input { width:100%; font:inherit; font-size:16px; padding:13px 14px; border:1px solid var(--line);
     border-radius:9px; background:var(--cream); margin-bottom:10px; }
@@ -41,90 +46,140 @@ sitemap: false
   .btn:disabled { opacity:.6; }
   .auth .msg { margin-top:12px; font-size:14px; font-weight:600; }
 
-  /* glance bar */
-  .glance { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px; }
-  .glance div { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 6px; text-align:center; }
-  .glance b { display:block; font-size:22px; color:var(--navy); }
-  .glance span { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
-  .glance .hot b { color:var(--red); }
+  /* stat strip */
+  .stats { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; margin:12px 0; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 8px 8px; }
+  .stat span { display:block; font-size:10px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); }
+  .stat b { font-size:24px; color:var(--navy); font-weight:800; }
+  .stat.due b { color:var(--red); }
 
-  /* controls */
-  .controls { display:flex; gap:8px; margin-bottom:12px; }
-  .controls select { flex:1; font:inherit; font-size:14px; padding:10px; border:1px solid var(--line); border-radius:9px; background:var(--card); }
-  .controls button { font:inherit; font-size:14px; font-weight:700; padding:10px 14px; border:1.5px solid var(--line);
-    border-radius:9px; background:var(--card); cursor:pointer; color:var(--navy); }
+  /* pills + search */
+  .pills { display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-bottom:8px; }
+  .pill { font:inherit; font-size:12.5px; font-weight:800; letter-spacing:.04em; cursor:pointer;
+    border:1.5px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:7px 14px; }
+  .pill.on { border-color:var(--navy); background:var(--navy); color:#fff; }
+  .pill.hot.on { border-color:var(--hot); background:var(--hot); }
+  .pill.due.on { border-color:var(--red); background:var(--red); }
+  .pill .n { opacity:.75; font-weight:700; }
+  .searchrow { display:flex; gap:8px; margin-bottom:10px; }
+  .searchrow input { flex:1; font:inherit; font-size:14.5px; padding:10px 12px; border:1px solid var(--line);
+    border-radius:9px; background:var(--card); }
+  .searchrow button { font:inherit; font-weight:700; padding:10px 14px; border:1.5px solid var(--line);
+    border-radius:9px; background:var(--card); color:var(--navy); cursor:pointer; }
 
-  /* lead cards */
-  .lead { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; }
-  .lead .row1 { display:flex; align-items:center; gap:8px; }
-  .lead .name { font-weight:800; font-size:16.5px; color:var(--ink); flex:1; }
-  .status { border:0; border-radius:999px; padding:6px 12px; font:inherit; font-size:12px; font-weight:800;
-    color:#fff; cursor:pointer; text-transform:uppercase; letter-spacing:.04em; }
-  .status.new{background:var(--new)} .status.contacted{background:var(--contacted)}
-  .status.scheduled{background:var(--scheduled)} .status.done{background:var(--done)} .status.lost{background:var(--lost)}
-  .lead .meta { font-size:13px; color:var(--muted); margin:6px 0 8px; }
-  .lead .acts { display:flex; gap:8px; flex-wrap:wrap; }
-  .acts a, .acts button { font:inherit; font-size:13.5px; font-weight:700; text-decoration:none; cursor:pointer;
-    padding:9px 13px; border-radius:8px; border:1.5px solid var(--line); background:var(--cream); color:var(--navy); }
-  .acts a.call { background:var(--red); border-color:var(--red); color:#fff; }
-  .lead .notes { margin-top:10px; }
-  .lead .notes textarea { width:100%; font:inherit; font-size:14px; padding:10px; border:1px solid var(--line);
-    border-radius:8px; background:var(--cream); min-height:44px; resize:vertical; }
-  .lead .saved { font-size:11.5px; color:var(--done); font-weight:700; display:none; }
-  .del { margin-left:auto; color:var(--muted); border-color:transparent !important; background:none !important; }
+  /* gold banner */
+  .banner { display:flex; gap:10px; align-items:center; background:var(--gold-bg); border:1px solid #E5D3A1;
+    border-radius:10px; padding:10px 14px; font-size:13.5px; color:#6B5A1E; margin-bottom:12px; }
+  .banner b { color:#5A4A10; }
 
-  .empty { text-align:center; color:var(--muted); padding:40px 10px; }
+  /* lead rows */
+  .lead { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:8px; }
+  .lead.gold { border-color:#E0C878; box-shadow:0 0 0 1px #E0C878 inset; }
+  .lrow { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .avatar { width:34px; height:34px; border-radius:50%; background:var(--navy); color:#fff; font-size:12px;
+    font-weight:800; display:flex; align-items:center; justify-content:center; flex:0 0 34px; }
+  .who { min-width:170px; flex:1; }
+  .who .nm { font-weight:800; font-size:15.5px; }
+  .who .sub { font-size:12.5px; color:var(--muted); }
+  .overdue { display:inline-block; font-size:10px; font-weight:800; letter-spacing:.05em; color:#fff;
+    background:var(--red); border-radius:4px; padding:2px 6px; vertical-align:1px; }
+  .tchip { border:0; border-radius:999px; padding:6px 11px; font:inherit; font-size:11px; font-weight:800;
+    color:#fff; cursor:pointer; text-transform:uppercase; letter-spacing:.05em; }
+  .tchip.hot{background:var(--hot)} .tchip.warm{background:var(--warm)} .tchip.cold{background:var(--cold)}
+  select.stage, select.owner { font:inherit; font-size:12.5px; font-weight:700; padding:7px 8px;
+    border:1.5px solid var(--line); border-radius:8px; background:var(--cream); color:var(--navy); }
+  input.fup { font:inherit; font-size:12.5px; padding:6px 8px; border:1.5px solid var(--line);
+    border-radius:8px; background:var(--cream); color:var(--ink); width:130px; }
+  input.fup.late { border-color:var(--red); color:var(--red); font-weight:700; }
+  .acts { display:flex; gap:6px; }
+  .acts a { font-size:12px; font-weight:800; text-decoration:none; padding:8px 11px; border-radius:8px;
+    letter-spacing:.04em; }
+  .acts a.t { background:var(--gold-bg); color:#6B5A1E; border:1px solid #E0C878; }
+  .acts a.c { background:var(--red); color:#fff; }
+  .acts a.e { background:var(--cream); color:var(--navy); border:1.5px solid var(--line); }
+  .more { background:none; border:0; color:var(--muted); font-size:16px; cursor:pointer; padding:4px 6px; }
+  .detail { display:none; margin-top:10px; border-top:1px dashed var(--line); padding-top:10px; }
+  .detail.open { display:block; }
+  .detail textarea { width:100%; font:inherit; font-size:14px; padding:10px; border:1px solid var(--line);
+    border-radius:8px; background:var(--cream); min-height:48px; resize:vertical; }
+  .drow { display:flex; gap:8px; align-items:center; margin-top:8px; flex-wrap:wrap; font-size:12.5px; color:var(--muted); }
+  .del { color:var(--red); background:none; border:0; cursor:pointer; font-size:12.5px; font-weight:700; text-decoration:underline; }
+  .saved { color:var(--ok); font-weight:700; display:none; }
 
-  /* add button + form */
+  .empty { text-align:center; color:var(--muted); padding:44px 10px; }
+
   .fab { position:fixed; right:16px; bottom:16px; width:58px; height:58px; border-radius:50%; border:0;
-    background:var(--red); color:#fff; font-size:30px; font-weight:700; cursor:pointer; box-shadow:0 8px 22px rgba(197,58,29,.4); }
+    background:var(--red); color:#fff; font-size:30px; cursor:pointer; box-shadow:0 8px 22px rgba(197,58,29,.4); }
   .addform { background:var(--card); border:1px solid var(--line); border-top:4px solid var(--navy);
     border-radius:12px; padding:16px; margin-bottom:12px; display:none; }
-  .addform input { width:100%; font:inherit; font-size:16px; padding:11px 12px; border:1px solid var(--line);
-    border-radius:8px; background:var(--cream); margin-bottom:8px; }
-  .addform .btn { margin-top:4px; }
+  .addform .grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .addform input, .addform select { width:100%; font:inherit; font-size:15px; padding:11px 12px;
+    border:1px solid var(--line); border-radius:8px; background:var(--cream); }
+  .addform .btn { margin-top:10px; }
+
+  @media (max-width:760px) {
+    .stats { grid-template-columns:repeat(3,1fr); }
+    .who { min-width:130px; }
+    .lrow { row-gap:8px; }
+    .addform .grid { grid-template-columns:1fr; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
     <img src="/assets/images/jvg-logo.png" alt="JVG">
-    <div><h1>JVG Leads</h1><div class="sub" id="whoami"></div></div>
+    <div>
+      <div class="kicker">Lead Pipeline · <span id="season">JVG Cooling &amp; Heating</span></div>
+      <h1>Hit List.</h1>
+    </div>
     <div class="spacer"></div>
+    <button class="export" id="export" style="display:none">⧉ Export</button>
     <button class="signout" id="signout" style="display:none">sign out</button>
   </header>
 
   <div class="auth" id="auth" style="display:none">
     <h2>Sign in</h2>
-    <p>Enter your email — we'll send you a sign-in link. No passwords to remember.</p>
+    <p>Enter your email — we'll send a sign-in link. No passwords.</p>
     <input type="email" id="email" placeholder="you@email.com" autocomplete="email">
     <button class="btn" id="sendlink">Email me a sign-in link</button>
     <div class="msg" id="authmsg"></div>
   </div>
 
   <div id="app" style="display:none">
-    <div class="glance">
-      <div class="hot"><b id="g-new">–</b><span>New</span></div>
-      <div><b id="g-week">–</b><span>This week</span></div>
-      <div><b id="g-sched">–</b><span>Scheduled</span></div>
+    <div class="stats">
+      <div class="stat"><span>To Contact</span><b id="s-new">–</b></div>
+      <div class="stat"><span>Contacted</span><b id="s-contacted">–</b></div>
+      <div class="stat"><span>Scheduled</span><b id="s-sched">–</b></div>
+      <div class="stat due"><span>📌 Due Today</span><b id="s-due">–</b></div>
+      <div class="stat"><span>Won ❤️</span><b id="s-won">–</b></div>
+      <div class="stat"><span>Close Rate</span><b id="s-rate">–</b></div>
     </div>
 
-    <div class="controls">
-      <select id="filter">
-        <option value="active">Active (new + contacted + scheduled)</option>
-        <option value="new">New only</option>
-        <option value="all">Everything</option>
-        <option value="done">Done</option>
-        <option value="lost">Lost</option>
-      </select>
+    <div class="pills">
+      <button class="pill hot on" data-f="hot">🔥 HOT</button>
+      <button class="pill" data-f="warm">WARM</button>
+      <button class="pill" data-f="cold">COLD</button>
+      <button class="pill" data-f="all">ALL LEADS</button>
+      <button class="pill due" data-f="due">📌 DUE <span class="n" id="p-due"></span></button>
+    </div>
+
+    <div class="searchrow">
+      <input id="q" placeholder="Name · email · phone · note…">
       <button id="refresh">↻</button>
     </div>
 
+    <div class="banner">⭐ <div><b>Start with the gold rows</b> — website leads from the last 7 days with a phone number. Freshest memory, most likely to answer.</div></div>
+
     <div class="addform" id="addform">
-      <input id="a-name" placeholder="Name *">
-      <input id="a-phone" placeholder="Phone" type="tel">
-      <input id="a-email" placeholder="Email" type="email">
-      <input id="a-city" placeholder="City">
+      <div class="grid">
+        <input id="a-name" placeholder="Name *">
+        <input id="a-phone" placeholder="Phone" type="tel">
+        <input id="a-email" placeholder="Email" type="email">
+        <input id="a-city" placeholder="City">
+        <select id="a-temp"><option value="hot">🔥 Hot</option><option value="warm" selected>Warm</option><option value="cold">Cold</option></select>
+        <select id="a-owner"><option value="">Owner…</option><option>Hazi</option><option>Dad</option><option>Cam</option></select>
+      </div>
       <button class="btn" id="a-save">Add lead</button>
     </div>
 
@@ -138,121 +193,143 @@ sitemap: false
 const SB_URL = "https://zsaasblsmjguacebjetr.supabase.co";
 const SB_KEY = "sb_publishable_B1lxGQ4zQ0LNUy4LXin1Ow_9UIAYAHt";
 const sb = window.supabase.createClient(SB_URL, SB_KEY);
-const STATUSES = ["new","contacted","scheduled","done","lost"];
+const STAGES = [["new","To Contact"],["contacted","Contacted"],["scheduled","Scheduled"],["done","Won"],["lost","Lost"]];
+const TEMPS = ["hot","warm","cold"];
+const OWNERS = ["","Hazi","Dad","Cam"];
 const $ = id => document.getElementById(id);
+let FILTER = "hot", ROWS = [];
 
 async function init() {
   const { data: { session } } = await sb.auth.getSession();
-  if (session) showApp(session); else showAuth();
+  if (session) showApp(session); else $("auth").style.display = "block";
   sb.auth.onAuthStateChange((_e, s) => { if (s) showApp(s); });
 }
-
-function showAuth() { $("auth").style.display = "block"; }
-
 $("sendlink").onclick = async () => {
-  const email = $("email").value.trim();
-  if (!email) return;
+  const email = $("email").value.trim(); if (!email) return;
   $("sendlink").disabled = true;
   const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: "https://jvghvac.com/crm/" } });
-  $("authmsg").textContent = error ? ("Hmm: " + error.message) : "Check your email and tap the link. You can close this tab.";
-  $("authmsg").style.color = error ? "var(--red)" : "var(--done)";
+  $("authmsg").textContent = error ? ("Hmm: " + error.message) : "Check your email and tap the link.";
+  $("authmsg").style.color = error ? "var(--red)" : "var(--ok)";
   $("sendlink").disabled = false;
 };
-
-async function showApp(session) {
-  $("auth").style.display = "none";
-  $("app").style.display = "block";
-  $("fab").style.display = "block";
-  $("signout").style.display = "inline";
-  $("whoami").textContent = session.user.email;
+function showApp() {
+  $("auth").style.display = "none"; $("app").style.display = "block";
+  $("fab").style.display = "block"; $("signout").style.display = "inline"; $("export").style.display = "inline";
   load();
 }
-
 $("signout").onclick = async () => { await sb.auth.signOut(); location.reload(); };
 $("refresh").onclick = () => load();
-$("filter").onchange = () => load();
+$("q").oninput = () => render();
 $("fab").onclick = () => { const f = $("addform"); f.style.display = f.style.display === "block" ? "none" : "block"; };
+document.querySelectorAll(".pill").forEach(p => p.onclick = () => {
+  document.querySelectorAll(".pill").forEach(x => x.classList.remove("on"));
+  p.classList.add("on"); FILTER = p.dataset.f; render();
+});
 
 $("a-save").onclick = async () => {
-  const name = $("a-name").value.trim();
-  if (!name) return alert("Name is required");
+  const name = $("a-name").value.trim(); if (!name) return alert("Name is required");
   const { error } = await sb.from("leads").insert({
-    name, phone: $("a-phone").value.trim() || null,
-    email: $("a-email").value.trim() || null,
-    city: $("a-city").value.trim() || null,
-    source: "manual"
-  });
+    name, phone: $("a-phone").value.trim() || null, email: $("a-email").value.trim() || null,
+    city: $("a-city").value.trim() || null, temp: $("a-temp").value,
+    owner: $("a-owner").value || null, source: "manual" });
   if (error) return alert(error.message);
   ["a-name","a-phone","a-email","a-city"].forEach(i => $(i).value = "");
-  $("addform").style.display = "none";
-  load();
+  $("addform").style.display = "none"; load();
 };
 
+const today = () => new Date().toISOString().slice(0,10);
+
 async function load() {
-  let q = sb.from("leads").select("*").order("created_at", { ascending: false }).limit(300);
-  const f = $("filter").value;
-  if (f === "active") q = q.in("status", ["new","contacted","scheduled"]);
-  else if (f !== "all") q = q.eq("status", f);
-  const { data, error } = await q;
+  const { data, error } = await sb.from("leads").select("*").order("created_at", { ascending:false }).limit(500);
   if (error) { $("list").innerHTML = '<div class="empty">Could not load: ' + esc(error.message) + '</div>'; return; }
-  render(data || []);
-  glance();
+  ROWS = data || []; stats(); render();
 }
 
-async function glance() {
-  const weekAgo = new Date(Date.now() - 7*864e5).toISOString();
-  const [n, w, s] = await Promise.all([
-    sb.from("leads").select("id", { count: "exact", head: true }).eq("status","new"),
-    sb.from("leads").select("id", { count: "exact", head: true }).gte("created_at", weekAgo),
-    sb.from("leads").select("id", { count: "exact", head: true }).eq("status","scheduled"),
-  ]);
-  $("g-new").textContent = n.count ?? "–";
-  $("g-week").textContent = w.count ?? "–";
-  $("g-sched").textContent = s.count ?? "–";
+function isDue(l) { return l.next_action && l.next_action <= today() && !["done","lost"].includes(l.status); }
+function isGold(l) { return l.phone && (l.source||"").startsWith("website") && (Date.now() - new Date(l.created_at)) < 7*864e5 && l.status === "new"; }
+
+function stats() {
+  const n = s => ROWS.filter(l => l.status === s).length;
+  const due = ROWS.filter(isDue).length;
+  const won = n("done"), lost = n("lost");
+  $("s-new").textContent = n("new"); $("s-contacted").textContent = n("contacted");
+  $("s-sched").textContent = n("scheduled"); $("s-due").textContent = due;
+  $("s-won").textContent = won;
+  $("s-rate").textContent = (won + lost) ? Math.round(100 * won / (won + lost)) + "%" : "0%";
+  $("p-due").textContent = due || "";
 }
 
 function esc(t){ return (t||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function initials(n){ return n.split(/\s+/).map(w => w[0]).join("").slice(0,2).toUpperCase(); }
 
-function render(leads) {
-  if (!leads.length) { $("list").innerHTML = '<div class="empty">No leads here yet.<br>New website leads land automatically.</div>'; return; }
-  $("list").innerHTML = leads.map(l => {
-    const when = new Date(l.created_at).toLocaleDateString("en-US", { month:"short", day:"numeric" });
-    const meta = [when, l.city, l.source].filter(Boolean).join(" · ");
+function render() {
+  let rows = ROWS;
+  if (FILTER === "due") rows = rows.filter(isDue);
+  else if (FILTER !== "all") rows = rows.filter(l => l.temp === FILTER && !["done","lost"].includes(l.status));
+  const q = $("q").value.trim().toLowerCase();
+  if (q) rows = rows.filter(l => [l.name,l.email,l.phone,l.notes,l.city,l.owner].join(" ").toLowerCase().includes(q));
+  rows = [...rows].sort((a,b) => (isGold(b)-isGold(a)) || (isDue(b)-isDue(a)) || (a.created_at < b.created_at ? 1 : -1));
+  if (!rows.length) { $("list").innerHTML = '<div class="empty">Nothing here. New website leads land automatically.</div>'; return; }
+  $("list").innerHTML = rows.map(l => {
     const tel = (l.phone||"").replace(/[^0-9+]/g,"");
-    return `<div class="lead" data-id="${l.id}">
-      <div class="row1">
-        <div class="name">${esc(l.name)}</div>
-        <button class="status ${l.status}" onclick="cycle('${l.id}','${l.status}')">${l.status}</button>
+    const late = isDue(l);
+    const stageOpts = STAGES.map(([v,t]) => `<option value="${v}" ${l.status===v?"selected":""}>${t}</option>`).join("");
+    const ownerOpts = OWNERS.map(o => `<option value="${o}" ${(l.owner||"")===o?"selected":""}>${o||"Owner…"}</option>`).join("");
+    return `<div class="lead ${isGold(l) ? "gold" : ""}">
+      <div class="lrow">
+        <div class="avatar">${initials(l.name)}</div>
+        <div class="who">
+          <div class="nm">${esc(l.name)} ${late ? '<span class="overdue">📌 DUE</span>' : ""}</div>
+          <div class="sub">${[l.phone, l.email, l.city].filter(Boolean).map(esc).join(" · ") || "no contact info"}</div>
+        </div>
+        <button class="tchip ${l.temp}" onclick="cycleTemp('${l.id}','${l.temp}')">${l.temp}</button>
+        <select class="stage" onchange="setF('${l.id}','status',this.value)">${stageOpts}</select>
+        <select class="owner" onchange="setF('${l.id}','owner',this.value||null)">${ownerOpts}</select>
+        <input class="fup ${late ? "late" : ""}" type="date" value="${l.next_action||""}" onchange="setF('${l.id}','next_action',this.value||null)">
+        <div class="acts">
+          ${tel ? `<a class="c" href="tel:${tel}">CALL</a><a class="t" href="sms:${tel}">TEXT</a>` : ""}
+          ${l.email ? `<a class="e" href="mailto:${esc(l.email)}">EMAIL</a>` : ""}
+        </div>
+        <button class="more" onclick="this.closest('.lead').querySelector('.detail').classList.toggle('open')">⌄</button>
       </div>
-      <div class="meta">${esc(meta)}${l.email ? " · " + esc(l.email) : ""}</div>
-      <div class="acts">
-        ${tel ? `<a class="call" href="tel:${tel}">Call</a><a href="sms:${tel}">Text</a>` : ""}
-        ${l.email ? `<a href="mailto:${esc(l.email)}">Email</a>` : ""}
-        <button class="del" onclick="del('${l.id}')">✕</button>
-      </div>
-      <div class="notes">
+      <div class="detail">
         <textarea placeholder="Notes…" onblur="saveNotes('${l.id}', this)">${esc(l.notes||"")}</textarea>
-        <span class="saved">saved ✓</span>
+        <div class="drow">
+          <span>Source: ${esc(l.source||"—")} · Added ${new Date(l.created_at).toLocaleDateString()}</span>
+          <span class="saved">saved ✓</span>
+          <span style="flex:1"></span>
+          <button class="del" onclick="del('${l.id}')">delete</button>
+        </div>
       </div>
     </div>`;
   }).join("");
 }
 
-window.cycle = async (id, cur) => {
-  const next = STATUSES[(STATUSES.indexOf(cur) + 1) % STATUSES.length];
-  const { error } = await sb.from("leads").update({ status: next }).eq("id", id);
-  if (!error) load(); else alert(error.message);
+window.setF = async (id, field, val) => {
+  const patch = { [field]: val, last_touch: new Date().toISOString() };
+  const { error } = await sb.from("leads").update(patch).eq("id", id);
+  if (error) return alert(error.message);
+  const r = ROWS.find(x => x.id === id); if (r) r[field] = val;
+  stats(); if (field === "status") render();
 };
-
+window.cycleTemp = (id, cur) => setF(id, "temp", TEMPS[(TEMPS.indexOf(cur)+1)%TEMPS.length]).then(() => render());
 window.saveNotes = async (id, ta) => {
   const { error } = await sb.from("leads").update({ notes: ta.value }).eq("id", id);
-  if (!error) { const s = ta.parentElement.querySelector(".saved"); s.style.display = "inline"; setTimeout(() => s.style.display = "none", 1500); }
+  if (!error) { const s = ta.parentElement.querySelector(".saved"); s.style.display = "inline"; setTimeout(() => s.style.display="none", 1400);
+    const r = ROWS.find(x => x.id === id); if (r) r.notes = ta.value; }
 };
-
 window.del = async (id) => {
   if (!confirm("Delete this lead? This can't be undone.")) return;
   const { error } = await sb.from("leads").delete().eq("id", id);
   if (!error) load(); else alert(error.message);
+};
+
+$("export").onclick = () => {
+  const cols = ["name","phone","email","city","temp","status","owner","next_action","source","notes","created_at"];
+  const csv = [cols.join(",")].concat(ROWS.map(l => cols.map(c => `"${String(l[c]??"").replace(/"/g,'""')}"`).join(","))).join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], { type:"text/csv" }));
+  a.download = "jvg-leads.csv"; a.click();
 };
 
 init();
