@@ -1,0 +1,182 @@
+---
+layout: null
+permalink: /report/
+sitemap: false
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<title>JVG Build Summary</title>
+</head>
+<body>
+<style>
+  :root {
+    --bg:#FAF9F5; --card:#FFFFFF; --ink:#20242E; --muted:#6E7280;
+    --navy:#2A3566; --red:#C53A1D; --gold:#8A6A10; --gold-bg:#FBF3DC;
+    --line:#E7E3DA; --ok:#2F7D46; --chip:#F1EEE6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#151928; --card:#1E2438; --ink:#E9E7E0; --muted:#9BA0AE;
+      --navy:#AEB9E8; --red:#E56046; --gold:#D4A93F; --gold-bg:#2E2A18;
+      --line:#323A52; --ok:#5CB878; --chip:#272E45;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#151928; --card:#1E2438; --ink:#E9E7E0; --muted:#9BA0AE;
+    --navy:#AEB9E8; --red:#E56046; --gold:#D4A93F; --gold-bg:#2E2A18;
+    --line:#323A52; --ok:#5CB878; --chip:#272E45;
+  }
+  * { box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15.5px; line-height:1.55; }
+  .wrap { max-width:780px; margin:0 auto; padding:40px 20px 72px; }
+
+  .kicker { font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--red); margin:0 0 6px; }
+  h1 { color:var(--navy); font-size:34px; font-weight:800; letter-spacing:-.02em; line-height:1.1; margin:0 0 6px; text-wrap:balance; }
+  .sub { color:var(--muted); margin:0 0 28px; font-size:15px; }
+
+  .stats { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:0 0 36px; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 10px 12px; }
+  .stat b { display:block; font-size:26px; font-weight:800; color:var(--navy); font-variant-numeric:tabular-nums; line-height:1.1; }
+  .stat span { font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  @media (max-width:640px) { .stats { grid-template-columns:repeat(2,1fr); } h1 { font-size:28px; } }
+
+  .day { display:flex; gap:16px; margin-bottom:6px; }
+  .rail { flex:0 0 92px; text-align:right; padding-top:22px; }
+  .rail b { font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--red); }
+  .entry { flex:1; background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:18px 20px; margin-bottom:14px; min-width:0; }
+  .entry h2 { color:var(--navy); font-size:18px; font-weight:800; margin:0 0 8px; letter-spacing:-.01em; }
+  .entry p { margin:0 0 8px; }
+  .entry p:last-child { margin-bottom:0; }
+  .entry ul { margin:6px 0 0; padding-left:20px; }
+  .entry li { margin-bottom:5px; }
+  .entry a { color:var(--red); font-weight:600; text-decoration:none; border-bottom:1px solid var(--line); }
+  .entry .fine { color:var(--muted); font-size:13.5px; }
+  @media (max-width:640px) { .day { display:block; } .rail { text-align:left; padding:0 0 4px; } }
+
+  .htag { display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    border-radius:5px; padding:2px 8px; margin-left:6px; vertical-align:2px; }
+  .htag.live { background:var(--ok); color:#fff; }
+  .htag.wait { background:var(--gold-bg); color:var(--gold); border:1px solid var(--gold); }
+
+  .secthead { font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+    margin:36px 0 14px; padding-bottom:8px; border-bottom:2px solid var(--line); }
+
+  .links { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  @media (max-width:640px) { .links { grid-template-columns:1fr; } }
+  .link { display:block; background:var(--card); border:1px solid var(--line); border-radius:10px;
+    padding:12px 14px; text-decoration:none; }
+  .link b { color:var(--navy); font-size:14.5px; display:block; }
+  .link span { color:var(--muted); font-size:13px; }
+  .link:hover { border-color:var(--red); }
+
+  .waiting { background:var(--gold-bg); border:1px solid var(--gold); border-radius:12px; padding:16px 20px; }
+  .waiting ul { margin:6px 0 0; padding-left:20px; }
+  .waiting li { margin-bottom:6px; }
+  .who { font-weight:800; color:var(--gold); font-size:12px; letter-spacing:.05em; text-transform:uppercase; }
+
+  .foot { margin-top:36px; color:var(--muted); font-size:13px; border-top:1px solid var(--line); padding-top:14px; }
+</style>
+
+<div class="wrap">
+  <p class="kicker">JVG Cooling &amp; Heating Solutions · Build Summary</p>
+  <h1>From website to lead machine.</h1>
+  <p class="sub">What has been built and shipped so far · prepared by Cameron / FreeByrd · software cost: $0/month</p>
+
+  <div class="stats">
+    <div class="stat"><b>175+</b><span>Pages live</span></div>
+    <div class="stat"><b>143</b><span>Local SEO pages</span></div>
+    <div class="stat"><b>14</b><span>2,000-word guides</span></div>
+    <div class="stat"><b>168</b><span>Pages that capture leads</span></div>
+    <div class="stat"><b>~1 sec</b><span>Form → CRM board</span></div>
+  </div>
+
+  <div class="day">
+    <div class="entry">
+      <h2>Local search engine <span class="htag live">Live</span></h2>
+      <p>Built the footprint that lets JVG show up when any of its 13 towns searches for HVAC help:</p>
+      <ul>
+        <li><b>130 service pages</b> — every service (AC repair, heat pumps, furnace, electrical, and more) × every town, each written to that town's climate and housing quirks</li>
+        <li><b>13 town hub pages</b> tying each area together</li>
+        <li><b>14 long-form guides</b> (~2,000 words each): one per town plus the California 2027 gas-furnace rules guide — the question every homeowner will be asking</li>
+        <li>A private <a href="https://jvghvac.com/review/">review page</a> listing every link for Hazi's sign-off</li>
+      </ul>
+      <p class="fine">Every page carries the license number and honest service-area disclosure.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="entry">
+      <h2>The Hit List — JVG's own CRM <span class="htag live">Live</span></h2>
+      <p>A one-screen lead board built for how Hazi and his dad actually work, in JVG colors at <a href="https://jvghvac.com/crm/">jvghvac.com/crm</a>:</p>
+      <ul>
+        <li>Pipeline: To Contact → Contacted → Scheduled → Won / Lost, with close-rate at the top</li>
+        <li>One-tap <b>CALL / TEXT / EMAIL</b> on every lead, notes, follow-up dates, owner (Hazi / Dad / Cam)</li>
+        <li>Email-link sign-in — no passwords to remember, works on a phone in the truck</li>
+        <li>A <a href="https://jvghvac.com/crm/?demo">no-login demo</a> with sample data for walking Hazi through it</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="entry">
+      <h2>The board thinks for itself <span class="htag live">Live</span></h2>
+      <p>Nobody has to sort leads — the rules Hazi described are automatic:</p>
+      <ul>
+        <li><b>🔥 Hot sets itself</b> — new website leads and anything due today, gold-highlighted when fresh with a phone number</li>
+        <li><b>New leads pop onto the screen live</b>, about one second after the form is submitted, with a flame alert</li>
+        <li><b>🧊 The freezer</b> — any lead untouched for 14 days dims with a freezer sign and sinks to the bottom; one touch thaws it</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="entry">
+      <h2>Lead capture on every page + instant alerts <span class="htag live">Live</span></h2>
+      <ul>
+        <li>The <b>$69.99 inspection form</b> (name / phone / email) now closes out all 168 public pages — home, every town page, every blog guide</li>
+        <li>Each lead is tagged with the page it came from, so we'll know which towns and articles convert</li>
+        <li><b>Email alert to Cam + Hazi</b> the moment a lead lands ("🔥 New JVG lead: …")</li>
+        <li>Tested end-to-end on the live site: form → board in about a second</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="entry">
+      <h2>Google Business Profile <span class="htag wait">One step from live</span></h2>
+      <p>The listing is fully built: all 13 service areas, hours, phone, website, real work photo — service-area setup with no street address shown, exactly as requested.</p>
+      <p>Google requires a one-time <b>2-minute verification video</b> from Hazi (van, tools, license) — the only remaining step before JVG appears on Google Maps for all 13 towns. Step-by-step email is drafted and ready to forward.</p>
+    </div>
+  </div>
+
+  <p class="secthead">Everything, one click away</p>
+  <div class="links">
+    <a class="link" href="https://jvghvac.com"><b>jvghvac.com</b><span>The website — 175+ pages</span></a>
+    <a class="link" href="https://jvghvac.com/crm/"><b>The Hit List</b><span>Live lead board (sign in by email)</span></a>
+    <a class="link" href="https://jvghvac.com/crm/?demo"><b>Hit List demo</b><span>Sample data, no login — show Hazi</span></a>
+    <a class="link" href="https://jvghvac.com/blog/"><b>The Napa Comfort Report</b><span>14 local guides</span></a>
+    <a class="link" href="https://jvghvac.com/review/"><b>Review page</b><span>Every page listed for sign-off</span></a>
+      </div>
+
+  <p class="secthead">What unlocks next</p>
+  <div class="waiting">
+    <ul>
+      <li><span class="who">Hazi</span> — film the 2-minute Google verification video (puts JVG on Maps for 13 towns)</li>
+      <li><span class="who">Hazi</span> — sign into the Hit List once on his phone</li>
+      <li><span class="who">Cam</span> — click the FormSubmit activation email so lead alerts start delivering; remove the duplicate Google listing draft</li>
+      <li><span class="who">Together</span> — real customer quotes to replace placeholders; Dad's email to add him to the board</li>
+    </ul>
+  </div>
+
+  <p class="foot">All software running on free tiers — GitHub Pages, Supabase, FormSubmit — total ongoing cost $0/month. Domain: jvghvac.com via GoDaddy. CSLB License #1103018 shown site-wide.</p>
+</div>
+</body>
+</html>
