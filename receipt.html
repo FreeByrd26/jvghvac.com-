@@ -1,0 +1,343 @@
+---
+layout: null
+permalink: /receipt/
+sitemap: false
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<title>JVG — Paid Receipt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap">
+</head>
+<body>
+<style>
+  :root {
+    --paper:#FBFAF7; --card:#FFFFFF; --ink:#1A1D1C; --muted:#6A716E;
+    --teal:#0E6B62; --teal-d:#0A4F48; --teal-bg:#E8F2F0;
+    --line:#E6E4DD; --line-d:#D3D0C7; --ok:#2F7D46; --amt:#12332F;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:#131716; --card:#1B211F; --ink:#EAE9E3; --muted:#9AA19D;
+      --teal:#4FC7BB; --teal-d:#78D8CE; --teal-bg:#12302C;
+      --line:#2A312E; --line-d:#38403C; --ok:#5CB878; --amt:#DCF3EF;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:#131716; --card:#1B211F; --ink:#EAE9E3; --muted:#9AA19D;
+    --teal:#4FC7BB; --teal-d:#78D8CE; --teal-bg:#12302C;
+    --line:#2A312E; --line-d:#38403C; --ok:#5CB878; --amt:#DCF3EF;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:14.5px; line-height:1.5; }
+  .sheet { max-width:760px; margin:0 auto; padding:44px 40px 60px; }
+
+  /* masthead */
+  .top { display:flex; justify-content:space-between; align-items:flex-start; gap:20px;
+    padding-bottom:22px; border-bottom:2px solid var(--ink); }
+  .brand .mark { font-size:24px; font-weight:700; letter-spacing:-.02em; color:var(--ink); }
+  .brand .mark b { color:var(--teal); }
+  .brand .tag { font-size:12px; color:var(--muted); margin-top:2px; }
+  .brand .contact { font-size:12.5px; color:var(--muted); margin-top:10px; line-height:1.6; }
+  .inv-title { text-align:right; }
+  .inv-title h1 { margin:0; font-size:30px; font-weight:700; letter-spacing:.04em; color:var(--teal); text-transform:uppercase; }
+  .inv-meta { margin-top:10px; font-size:13px; color:var(--muted); line-height:1.7; }
+  .inv-meta b { color:var(--ink); font-weight:600; font-variant-numeric:tabular-nums; }
+
+  /* parties */
+  .parties { display:flex; justify-content:space-between; gap:24px; margin:24px 0 8px; }
+  .party .lbl { font-size:10.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); margin-bottom:5px; }
+  .party .nm { font-weight:600; font-size:15px; }
+  .party .dt { font-size:13px; color:var(--muted); line-height:1.6; }
+  .party.right { text-align:right; }
+
+  .period { background:var(--teal-bg); border:1px solid var(--line); border-radius:8px;
+    padding:11px 16px; margin:18px 0 26px; font-size:13.5px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; }
+  .period b { color:var(--teal-d); }
+
+  /* line items */
+  table { width:100%; border-collapse:collapse; }
+  thead th { font-size:10.5px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--muted);
+    text-align:left; padding:0 0 8px; border-bottom:1.5px solid var(--line-d); }
+  thead th.r { text-align:right; }
+  tbody td { padding:13px 0; border-bottom:1px solid var(--line); vertical-align:top; }
+  tbody td.r { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .li-name { font-weight:600; }
+  .li-desc { font-size:12.5px; color:var(--muted); margin-top:2px; }
+
+  /* totals */
+  .totals { margin:18px 0 0; display:flex; justify-content:flex-end; }
+  .totals .box { width:290px; }
+  .trow { display:flex; justify-content:space-between; padding:7px 0; font-size:14px; }
+  .trow.sub { color:var(--muted); }
+  .trow.paid { color:var(--ok); }
+  .trow.due { margin-top:6px; padding:13px 16px; background:var(--ok); color:#fff; border-radius:8px;
+    font-size:17px; font-weight:700; }
+  .trow .amt { font-variant-numeric:tabular-nums; }
+  .paidtag { color:var(--ok) !important; }
+  .paid-stamp { display:inline-block; margin-top:12px; border:2.5px solid var(--ok); color:var(--ok);
+    font-size:15px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; padding:5px 16px;
+    border-radius:7px; transform:rotate(-4deg); }
+
+  /* deliverables */
+  .sec { margin-top:34px; }
+  .sec-h { font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--teal);
+    padding-bottom:9px; border-bottom:1.5px solid var(--line-d); margin-bottom:4px; }
+  .del { padding:14px 0; border-bottom:1px solid var(--line); display:flex; gap:14px; align-items:baseline; }
+  .del:last-child { border-bottom:0; }
+  .del .n { flex:0 0 30px; font-size:13px; font-weight:700; color:var(--teal); font-variant-numeric:tabular-nums; }
+  .del .body { flex:1; }
+  .del .t { font-weight:600; font-size:14.5px; }
+  .del .d { font-size:13px; color:var(--muted); margin-top:2px; }
+  .del .chip { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--ok); border:1px solid var(--ok); border-radius:4px; padding:1px 6px; margin-left:7px; vertical-align:1px; }
+  .del .chip.prog { color:var(--muted); border-color:var(--line-d); }
+
+  .note { margin-top:30px; background:var(--card); border:1px solid var(--line); border-left:3px solid var(--teal);
+    border-radius:8px; padding:14px 18px; font-size:13px; color:var(--muted); }
+  .note b { color:var(--ink); }
+
+  .pay { margin-top:22px; display:flex; gap:20px; flex-wrap:wrap; }
+  .pay .col { flex:1; min-width:220px; }
+  .pay .lbl { font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); margin-bottom:5px; }
+  .pay .val { font-size:13.5px; line-height:1.7; }
+  .fill { color:var(--muted); font-style:italic; }
+
+  .foot { margin-top:34px; padding-top:16px; border-top:1px solid var(--line); text-align:center;
+    font-size:12.5px; color:var(--muted); }
+  .foot .thanks { color:var(--teal); font-weight:600; font-size:14px; }
+
+  @media (max-width:640px) {
+    .sheet { padding:28px 20px 44px; }
+    .top, .parties, .pay { flex-direction:column; }
+    .inv-title, .party.right { text-align:left; }
+    .totals .box { width:100%; }
+  }
+  @media print {
+    body { background:#fff; }
+    .sheet { padding:0; max-width:100%; }
+  }
+</style>
+
+<div class="sheet">
+  <div class="top">
+    <div class="brand">
+      <div class="mark">Cameron <b>Bannister</b></div>
+      <div class="tag">Marketing &amp; Web Systems</div>
+      <div class="contact">cameron@freebyrd.pro</div>
+    </div>
+    <div class="inv-title">
+      <h1>Invoice</h1>
+      <div class="inv-meta">
+        Invoice <b>#JVG-001</b><br>
+        Issued <b>Sep 22, 2026</b><br>
+        Status <b class="paidtag">Paid in full</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="parties">
+    <div class="party">
+      <div class="lbl">Billed to</div>
+      <div class="nm">Hazi Garcia</div>
+      <div class="dt">JVG Cooling &amp; Heating Solutions<br>Napa Valley, CA · Lic. #1103018</div>
+    </div>
+    <div class="party right">
+      <div class="lbl">Engagement</div>
+      <div class="nm">3-Month Marketing Plan</div>
+      <div class="dt">Build the CRM &amp; lead / email system<br>$1,000 / month · weekly 1-hr working session</div>
+    </div>
+  </div>
+
+  <div class="period">
+    <span>Billing period: <b>Months 1&ndash;2 &nbsp;(first 8 weeks)</b></span>
+    <span>Progress: <b>Month 2 of 3</b></span>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Description</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="li-name">Marketing plan &mdash; Month 1</div>
+          <div class="li-desc">Build &amp; strategy retainer, incl. weekly 1-hr session (4 &times; $250/hr)</div>
+        </td>
+        <td class="r">1</td><td class="r">$1,000.00</td><td class="r">$1,000.00</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="li-name">Marketing plan &mdash; Month 2</div>
+          <div class="li-desc">Build &amp; strategy retainer, incl. weekly 1-hr session (4 &times; $250/hr)</div>
+        </td>
+        <td class="r">1</td><td class="r">$1,000.00</td><td class="r">$1,000.00</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="li-name">Software &amp; hosting</div>
+          <div class="li-desc">Website hosting, CRM database, lead alerts &mdash; all on free tiers</div>
+        </td>
+        <td class="r">&mdash;</td><td class="r">$0.00</td><td class="r">$0.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="totals">
+    <div class="box">
+      <div class="trow sub"><span>Subtotal</span><span class="amt">$2,000.00</span></div>
+      <div class="trow paid"><span>Payments received</span><span class="amt">&minus;$2,000.00</span></div>
+      <div class="trow due"><span>Balance due</span><span class="amt">$0.00</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h">Work completed this period</div>
+
+    <div class="del">
+      <div class="n">01</div>
+      <div class="body">
+        <div class="t">Full website, live at jvghvac.com <span class="chip">Live</span></div>
+        <div class="d">177-page site on a custom domain &mdash; home, services, about, contact, and the full legal/compliance set (privacy, terms, accessibility), all mobile-optimized in JVG's brand colors with the logo and license number throughout.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">02</div>
+      <div class="body">
+        <div class="t">Local SEO engine &mdash; 143 pages <span class="chip">Live</span></div>
+        <div class="d">130 service-by-town pages (10 services &times; 13 towns) plus 13 town hub pages, each written to that town's climate and housing &mdash; built so JVG surfaces when any of the 13 service areas searches for HVAC help.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">03</div>
+      <div class="body">
+        <div class="t">14 in-depth local guides (~2,000 words each) <span class="chip">Live</span></div>
+        <div class="d">A blog for every town plus a guide to California's 2027 gas-furnace rules &mdash; the questions homeowners are searching, answered in JVG's voice to build search authority and trust.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">04</div>
+      <div class="body">
+        <div class="t">Lead capture on every page &mdash; 168 pages <span class="chip">Live</span></div>
+        <div class="d">The $69.99 inspection form closes out every public page. Each lead is tagged with the page it came from, so we can see which towns and articles are converting.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">05</div>
+      <div class="body">
+        <div class="t">The Hit List &mdash; JVG's own CRM <span class="chip">Live</span></div>
+        <div class="d">A one-screen lead board built for how the team works: pipeline stages, one-tap call/text/email, notes, owners, and password-free sign-in that works from a phone in the truck. New website leads land on the board within about a second of submission.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">06</div>
+      <div class="body">
+        <div class="t">Automatic lead prioritizing + instant alerts <span class="chip">Live</span></div>
+        <div class="d">The board sorts itself &mdash; new and due-today leads flag hot, untouched leads drop to a 14-day "freezer." Every new lead also emails Hazi and Cameron the moment it arrives.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">07</div>
+      <div class="body">
+        <div class="t">Google Business Profile <span class="chip prog">1 step left</span></div>
+        <div class="d">Listing fully built &mdash; all 13 service areas, hours, phone, website, real work photo. Waiting only on Google's required 2-minute verification video from Hazi before it goes live on Maps.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">08</div>
+      <div class="body">
+        <div class="t">Social content library &mdash; 34 posts <span class="chip prog">Ready</span></div>
+        <div class="d">34 branded, ready-to-publish Facebook graphics with captions, queued for the page once it's created.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">09</div>
+      <div class="body">
+        <div class="t">Lead email sequence <span class="chip prog">In progress</span></div>
+        <div class="d">Instant new-lead alerts are live. The full nurture &amp; monthly-newsletter sequence is the focus of the remaining month of the plan.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h">Next month's focus &mdash; growing leads across the areas</div>
+
+    <div class="del">
+      <div class="n">&rarr;</div>
+      <div class="body">
+        <div class="t">Turn on the Google listing for all 13 towns</div>
+        <div class="d">Once Hazi's verification video is in, JVG shows up on Google Maps and local search across every service area &mdash; the single biggest source of new local leads.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">&rarr;</div>
+      <div class="body">
+        <div class="t">Scale up the blogs &mdash; the main lead driver</div>
+        <div class="d">Fresh, seasonal guides for each of the 13 towns, published on a steady cadence. More pages ranking for more local searches is how JVG keeps pulling in new homeowners month after month &mdash; the highest-leverage work we do, so it gets the most attention.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">&rarr;</div>
+      <div class="body">
+        <div class="t">Launch the lead email sequence &amp; monthly newsletter</div>
+        <div class="d">Automatic follow-up so no lead goes cold, plus a monthly newsletter to past customers &mdash; keeping JVG top-of-mind and driving repeat and referral work.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">&rarr;</div>
+      <div class="body">
+        <div class="t">Tune the CRM around how leads actually come in</div>
+        <div class="d">With real leads flowing, we refine the Hit List &mdash; sharper hot/cold rules, follow-up reminders, and reporting &mdash; so the team spends its time on the leads most likely to book.</div>
+      </div>
+    </div>
+
+    <div class="del">
+      <div class="n">&rarr;</div>
+      <div class="body">
+        <div class="t">Double down on the towns that convert</div>
+        <div class="d">Every lead is already tagged with the page it came from. We read which towns and guides pull leads, then sharpen those pages and add content where demand is strongest.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Software cost to JVG: $0/month.</b> Everything above runs on free tiers &mdash; website hosting, the CRM database, and lead-alert email. The only future costs are the domain (~$20/yr, nothing due until Dec 2027) and an email service ($20/mo) only if the newsletter list ever passes ~1,000 people.
+  </div>
+
+  <div class="pay">
+    <div class="col">
+      <div class="lbl">Payment status</div>
+      <div class="val">Received in full &mdash; thank you.<span class="paid-stamp">Paid</span></div>
+    </div>
+    <div class="col">
+      <div class="lbl">What's next</div>
+      <div class="val">Month 3 covers the lead email sequence &amp; monthly newsletter, invoiced at the close of the plan.</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="thanks">Thank you, Hazi.</div>
+    Questions on anything here? Reach Cameron at cameron@freebyrd.pro.
+  </div>
+</div>
+</body>
+</html>
