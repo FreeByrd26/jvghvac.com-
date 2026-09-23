@@ -6,6 +6,7 @@
 
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
 
   <!-- Open Graph -->
   <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
@@ -32,8 +33,6 @@
 
   <!-- AI-discoverable structured data -->
   {% include schema.html %}
-
-  {% seo %}
 </head>
 <body>
 
