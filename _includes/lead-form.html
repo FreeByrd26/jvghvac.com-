@@ -1,46 +1,99 @@
 {% comment %}
 ═══════════════════════════════════════════════════════════════
-  JVG LEAD FORM — captures Name / Email / Phone
-  Posts to a Google Apps Script Web App (site.lead_form_endpoint),
-  which appends a row to a Google Sheet. See GOOGLE-LEAD-FORM-SETUP.md.
-  Uses mode:no-cors (Apps Script doesn't send CORS headers), so the
-  submit is optimistic — the row is written even though we can't read
-  the response. Falls back to a "call us" message if no endpoint is set.
+  JVG INTAKE FORM — "Request service"
+  Captures a real job intake (name, phone, email, service, urgency,
+  address/city, preferred contact, description) and on submit:
+    1. Saves the lead to Supabase → shows on the Hit List CRM
+       (anon key is INSERT-only by RLS design)
+    2. Emails Hazi (+ Cam CC) the full intake so he knows how to reach out
+    3. Auto-replies to the customer confirming JVG received it
+  Steps 2 & 3 run through FormSubmit (free) and never block step 1.
 ═══════════════════════════════════════════════════════════════
 {% endcomment %}
 
 <section class="jvg-lead" id="get-offer">
   <div class="jvg-lead__inner">
     <header class="jvg-lead__head">
-      <p class="jvg-lead__eyebrow">Claim the ${{ site.offer_price }} Special</p>
-      <h2 class="jvg-lead__h2">Book your <em>maintenance inspection</em>.</h2>
-      <p class="jvg-lead__sub">Leave your details and we'll call to schedule — usually same day. No obligation.</p>
+      <p class="jvg-lead__eyebrow">Request Service</p>
+      <h2 class="jvg-lead__h2">Tell us what you need &mdash; <em>we'll reach out fast.</em></h2>
+      <p class="jvg-lead__sub">A real person from the family follows up &mdash; usually same day, Mon&ndash;Sat 7am&ndash;7pm. Prefer to talk now? Call or text <a href="tel:{{ site.phone }}">{{ site.phone_display }}</a>.</p>
     </header>
 
-    <form class="jvg-lead__form"
-          data-endpoint="{{ site.lead_form_endpoint }}"
-          data-phone="{{ site.phone_display }}">
+    <form class="jvg-lead__form" data-phone="{{ site.phone_display }}">
       <div class="jvg-lead__row">
         <label class="jvg-lead__field">
-          <span>Name</span>
+          <span>Name *</span>
           <input type="text" name="name" autocomplete="name" required placeholder="Your name" />
         </label>
         <label class="jvg-lead__field">
-          <span>Phone</span>
+          <span>Phone *</span>
           <input type="tel" name="phone" autocomplete="tel" required placeholder="(707) 000-0000" />
         </label>
         <label class="jvg-lead__field">
-          <span>Email</span>
+          <span>Email *</span>
           <input type="email" name="email" autocomplete="email" required placeholder="you@email.com" />
         </label>
       </div>
+
+      <div class="jvg-lead__row">
+        <label class="jvg-lead__field">
+          <span>What do you need?</span>
+          <select name="service">
+            <option value="">Choose a service…</option>
+            <option>A/C repair</option>
+            <option>A/C installation / replacement</option>
+            <option>Furnace / heating repair</option>
+            <option>Heating installation</option>
+            <option>Heat pump</option>
+            <option>Ductless mini-split</option>
+            <option>Electrical</option>
+            <option>$69.99 maintenance inspection</option>
+            <option>Not sure — need advice</option>
+          </select>
+        </label>
+        <label class="jvg-lead__field">
+          <span>How soon?</span>
+          <select name="urgency">
+            <option value="">Select…</option>
+            <option>Emergency — today</option>
+            <option>Within a few days</option>
+            <option>Flexible / planning ahead</option>
+          </select>
+        </label>
+        <label class="jvg-lead__field">
+          <span>Best way to reach you</span>
+          <select name="preferred_contact">
+            <option value="">Any</option>
+            <option>Call</option>
+            <option>Text</option>
+            <option>Email</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="jvg-lead__row jvg-lead__row--two">
+        <label class="jvg-lead__field">
+          <span>City</span>
+          <input type="text" name="city" autocomplete="address-level2" placeholder="Napa, Vacaville…" />
+        </label>
+        <label class="jvg-lead__field">
+          <span>Street address <span class="jvg-lead__opt">(optional — helps us schedule)</span></span>
+          <input type="text" name="address" autocomplete="street-address" placeholder="123 Main St" />
+        </label>
+      </div>
+
+      <label class="jvg-lead__field jvg-lead__field--wide">
+        <span>Anything we should know? <span class="jvg-lead__opt">(optional)</span></span>
+        <textarea name="message" rows="3" placeholder="What's going on with your system, and the best time to reach you…"></textarea>
+      </label>
+
       {%- comment -%} Honeypot — bots fill this, humans don't {%- endcomment -%}
       <input type="text" name="company" class="jvg-lead__hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <input type="hidden" name="source" value="{{ page.title | default: site.title }}" />
-      <button type="submit" class="jvg-lead__btn">Get my ${{ site.offer_price }} visit →</button>
+
+      <button type="submit" class="jvg-lead__btn">Request service &rarr;</button>
       <p class="jvg-lead__msg" role="status" aria-live="polite"></p>
       <p class="jvg-lead__fine">By submitting, you agree we may contact you by phone, text, or email about your request. See our <a href="{{ '/privacy/' | relative_url }}">Privacy Policy</a>.</p>
-      <p class="jvg-lead__fine">Prefer to talk? Call or text <a href="tel:{{ site.phone }}">{{ site.phone_display }}</a>.</p>
     </form>
   </div>
 </section>
@@ -51,59 +104,65 @@
   if (!form) return;
   var msg = form.querySelector('.jvg-lead__msg');
   var btn = form.querySelector('.jvg-lead__btn');
+  var SB_URL = "https://zsaasblsmjguacebjetr.supabase.co";
+  var SB_KEY = "sb_publishable_B1lxGQ4zQ0LNUy4LXin1Ow_9UIAYAHt";
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (form.company.value) return; // honeypot tripped
-    var endpoint = form.getAttribute('data-endpoint');
     var phone = form.getAttribute('data-phone');
     btn.disabled = true;
+
+    var v = function (n) { return (form[n] && form[n].value || "").trim(); };
+    var lead = {
+      name: v('name'), phone: v('phone'), email: v('email'),
+      city: v('city') || null, address: v('address') || null,
+      service: v('service') || null, urgency: v('urgency') || null,
+      preferred_contact: v('preferred_contact') || null,
+      message: v('message') || null,
+      source: "website: " + (v('source') || "unknown")
+    };
+
     var done = function (ok) {
       form.reset();
       btn.disabled = false;
       msg.className = 'jvg-lead__msg ' + (ok ? 'is-ok' : 'is-warn');
       msg.textContent = ok
-        ? "Thanks! We've got your info and will call shortly to schedule."
-        : "Thanks! Please call us at " + phone + " to lock in your appointment.";
+        ? "Got it! We've received your request and will reach out shortly to schedule. Check your email for confirmation."
+        : "Thanks! Please call or text us at " + phone + " to lock in your appointment.";
     };
-    // Leads land directly in the JVG CRM (Supabase; anon key is insert-only by RLS design)
-    var SB_URL = "https://zsaasblsmjguacebjetr.supabase.co";
-    var SB_KEY = "sb_publishable_B1lxGQ4zQ0LNUy4LXin1Ow_9UIAYAHt";
+
+    // 1) Save to the CRM (Supabase). This is the source of truth.
     fetch(SB_URL + "/rest/v1/leads", {
       method: "POST",
       headers: {
-        "apikey": SB_KEY,
-        "Authorization": "Bearer " + SB_KEY,
-        "Content-Type": "application/json",
-        "Prefer": "return=minimal"
+        "apikey": SB_KEY, "Authorization": "Bearer " + SB_KEY,
+        "Content-Type": "application/json", "Prefer": "return=minimal"
       },
-      body: JSON.stringify({
-        name: form.name.value.trim(),
-        phone: form.phone.value.trim(),
-        email: form.email.value.trim(),
-        source: "website: " + (form.source.value || "unknown")
-      })
-    }).then(function (r) { done(r.ok); })
-      .catch(function () { done(false); });
-    // Instant email alert to Cam + Hazi (FormSubmit, free) — fire-and-forget,
-    // never blocks or fails the lead capture above
+      body: JSON.stringify(lead)
+    }).then(function (r) { done(r.ok); }).catch(function () { done(false); });
+
+    // 2) Email Hazi (+ Cam CC) the full intake, and 3) auto-reply to the customer.
     try {
       fetch("https://formsubmit.co/ajax/cameron@freebyrd.pro", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
-          _subject: "🔥 New JVG lead: " + form.name.value.trim(),
+          _subject: "🔥 New JVG request: " + lead.name + (lead.service ? " — " + lead.service : ""),
           _cc: "jvghvac@gmail.com",
           _template: "table",
           _captcha: "false",
-          Name: form.name.value.trim(),
-          Phone: form.phone.value.trim(),
-          Email: form.email.value.trim(),
-          Page: form.source.value || "unknown",
+          _autoresponse: "Hi " + lead.name + ",\n\nThanks for reaching out to JVG Cooling & Heating Solutions — we've received your request" + (lead.service ? " for " + lead.service : "") + " and a member of our family team will contact you shortly to schedule, usually the same day (Mon–Sat, 7am–7pm).\n\nNeed us sooner? Call or text " + phone + ".\n\nWe appreciate your business,\nThe JVG Family\nLic. #1103018 · jvghvac.com",
+          Name: lead.name, Phone: lead.phone, Email: lead.email,
+          Service: lead.service || "—", "How soon": lead.urgency || "—",
+          City: lead.city || "—", Address: lead.address || "—",
+          "Best contact": lead.preferred_contact || "Any",
+          Notes: lead.message || "—",
+          "Came from": lead.source,
           "Hit List": "https://jvghvac.com/crm/"
         })
       }).catch(function () {});
     } catch (e) {}
-    if (endpoint) { /* legacy Apps Script endpoint no longer used */ }
   });
 })();
 </script>

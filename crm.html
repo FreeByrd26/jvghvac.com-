@@ -77,6 +77,17 @@ sitemap: false
   .lead.gold { border-color:#E0C878; box-shadow:0 0 0 1px #E0C878 inset; }
   .lead.frozen { background:#F3F6FA; border-color:#D4DEEA; }
   .lead.frozen .nm, .lead.frozen .sub { opacity:.8; }
+  .lead.emerg { border-color:var(--red); box-shadow:0 0 0 1px var(--red) inset; }
+  .req { display:flex; gap:6px; flex-wrap:wrap; margin-top:5px; }
+  .req span { font-size:11px; font-weight:700; border-radius:5px; padding:2px 8px; }
+  .req-svc { background:var(--navy); color:#fff; }
+  .req-urg { background:var(--chip); color:var(--muted); }
+  .req-urg.emerg { background:var(--red); color:#fff; }
+  .req-pref { background:var(--chip); color:var(--muted); font-weight:600; }
+  .cust-msg { background:var(--gold-bg); border:1px solid #E5D3A1; border-radius:8px; padding:9px 12px;
+    font-size:13.5px; color:#5A4A10; margin-bottom:10px; }
+  .intake { display:flex; gap:8px 18px; flex-wrap:wrap; font-size:12.5px; color:var(--muted); margin-bottom:10px; }
+  .intake b { color:var(--navy); font-weight:700; margin-right:4px; text-transform:uppercase; font-size:10px; letter-spacing:.05em; }
   .lead.newin { animation:newin 2.6s ease-out; }
   @keyframes newin { 0% { box-shadow:0 0 0 3px var(--red); background:#FDEFE9; } 100% { box-shadow:none; } }
   .newbadge { display:inline-block; font-size:10px; font-weight:800; letter-spacing:.05em; color:#fff;
@@ -211,8 +222,8 @@ let FILTER = "hot", ROWS = [];
 const DEMO = new URLSearchParams(location.search).has("demo");
 const daysAgo = d => new Date(Date.now() - d*864e5).toISOString();
 const DEMO_ROWS = [
-  { id:"d1", name:"Sarah Mitchell", phone:"7075551201", email:"sarahm@example.com", city:"Napa", source:"website: home", status:"new", temp:"hot", owner:null, next_action:null, notes:"", created_at: daysAgo(1) },
-  { id:"d2", name:"Robert Chen", phone:"7075551202", email:"rchen@example.com", city:"Vacaville", source:"website: vacaville", status:"new", temp:"hot", owner:"Hazi", next_action: new Date().toISOString().slice(0,10), notes:"A/C died during heat wave — wants estimate ASAP", created_at: daysAgo(2) },
+  { id:"d1", name:"Sarah Mitchell", phone:"7075551201", email:"sarahm@example.com", city:"Napa", address:"812 Brown St", service:"$69.99 maintenance inspection", urgency:"Flexible / planning ahead", preferred_contact:"Text", message:"Furnace hasn't been checked in years — want it looked at before winter.", source:"website: home", status:"new", temp:"hot", owner:null, next_action:null, notes:"", created_at: daysAgo(1) },
+  { id:"d2", name:"Robert Chen", phone:"7075551202", email:"rchen@example.com", city:"Vacaville", address:"55 Alamo Dr", service:"A/C repair", urgency:"Emergency — today", preferred_contact:"Call", message:"A/C died during the heat wave, house is 88°. Home after 3pm.", source:"website: vacaville", status:"new", temp:"hot", owner:"Hazi", next_action: new Date().toISOString().slice(0,10), notes:"A/C died during heat wave — wants estimate ASAP", created_at: daysAgo(2) },
   { id:"d3", name:"Linda Alvarez", phone:"7075551203", email:"", city:"Sonoma", source:"manual", status:"contacted", temp:"warm", owner:"Dad", next_action: daysAgo(1).slice(0,10), notes:"Called once, left voicemail. Wants heat pump info for 2027.", created_at: daysAgo(5) },
   { id:"d4", name:"Tom Barrett", phone:"", email:"tbarrett@example.com", city:"St. Helena", source:"website: st-helena", status:"contacted", temp:"warm", owner:"Hazi", next_action:null, notes:"Guest house mini-split quote requested", created_at: daysAgo(9) },
   { id:"d5", name:"Grace Kim", phone:"7075551205", email:"gracek@example.com", city:"Fairfield", source:"website: fairfield", status:"scheduled", temp:"hot", owner:"Dad", next_action: daysAgo(-3).slice(0,10), notes:"$69.99 inspection booked Thursday 9am", created_at: daysAgo(6) },
@@ -231,7 +242,9 @@ async function init() {
     document.body.appendChild(b);
     document.body.style.paddingTop = "30px";
     setTimeout(() => landLead({ id:"d9", name:"Priya Nair", phone:"7075551209", email:"priyan@example.com",
-      city:"Napa", source:"website: home", status:"new", temp:"hot", owner:null, next_action:null,
+      city:"Napa", address:"27 Vineyard Ln", service:"Heat pump", urgency:"Within a few days",
+      preferred_contact:"Call", message:"Interested in a heat pump quote for a 1,800 sq ft home.",
+      source:"website: home", status:"new", temp:"hot", owner:null, next_action:null,
       notes:"", created_at: new Date().toISOString() }), 6000);
     return;
   }
@@ -347,7 +360,7 @@ function render() {
   if (FILTER === "due") rows = rows.filter(isDue);
   else if (FILTER !== "all") rows = rows.filter(l => effTemp(l) === FILTER && !["done","lost"].includes(l.status));
   const q = $("q").value.trim().toLowerCase();
-  if (q) rows = rows.filter(l => [l.name,l.email,l.phone,l.notes,l.city,l.owner].join(" ").toLowerCase().includes(q));
+  if (q) rows = rows.filter(l => [l.name,l.email,l.phone,l.notes,l.city,l.address,l.owner,l.service,l.message].join(" ").toLowerCase().includes(q));
   const rank = { hot:0, warm:1, cold:2 };
   rows = [...rows].sort((a,b) => (isGold(b)-isGold(a)) || (isDue(b)-isDue(a)) || (rank[effTemp(a)]-rank[effTemp(b)]) || (a.created_at < b.created_at ? 1 : -1));
   if (!rows.length) { $("list").innerHTML = '<div class="empty">Nothing here. New website leads land automatically.</div>'; return; }
@@ -358,12 +371,18 @@ function render() {
     const ownerOpts = OWNERS.map(o => `<option value="${o}" ${(l.owner||"")===o?"selected":""}>${o||"Owner…"}</option>`).join("");
     const t = effTemp(l);
     const justIn = l._justIn && l.status === "new" && (Date.now() - new Date(l.created_at)) < 864e5;
-    return `<div class="lead ${isGold(l) ? "gold" : ""} ${isFrozen(l) ? "frozen" : ""} ${l._justIn ? "newin" : ""}">
+    const emerg = /emerg/i.test(l.urgency||"");
+    const reqbits = [];
+    if (l.service) reqbits.push(`<span class="req-svc">${esc(l.service)}</span>`);
+    if (l.urgency) reqbits.push(`<span class="req-urg ${emerg?"emerg":""}">${emerg?"⏱ ":""}${esc(l.urgency)}</span>`);
+    if (l.preferred_contact) reqbits.push(`<span class="req-pref">prefers ${esc(l.preferred_contact)}</span>`);
+    return `<div class="lead ${isGold(l) ? "gold" : ""} ${isFrozen(l) ? "frozen" : ""} ${l._justIn ? "newin" : ""} ${emerg && !["done","lost"].includes(l.status) ? "emerg" : ""}">
       <div class="lrow">
         <div class="avatar">${initials(l.name)}</div>
         <div class="who">
           <div class="nm">${esc(l.name)} ${justIn ? '<span class="newbadge">🔥 NEW</span>' : ""} ${late ? '<span class="overdue">📌 DUE</span>' : ""}</div>
-          <div class="sub">${[l.phone, l.email, l.city].filter(Boolean).map(esc).join(" · ") || "no contact info"}</div>
+          <div class="sub">${[l.phone, l.email, [l.address, l.city].filter(Boolean).join(", ")].filter(Boolean).map(esc).join(" · ") || "no contact info"}</div>
+          ${reqbits.length ? `<div class="req">${reqbits.join("")}</div>` : ""}
         </div>
         <button class="tchip ${t}" onclick="cycleTemp('${l.id}','${t}')">${TLABEL[t]}</button>
         <select class="stage" onchange="setF('${l.id}','status',this.value)">${stageOpts}</select>
@@ -376,6 +395,13 @@ function render() {
         <button class="more" onclick="this.closest('.lead').querySelector('.detail').classList.toggle('open')">⌄</button>
       </div>
       <div class="detail">
+        ${l.message ? `<div class="cust-msg"><b>What they told us:</b> "${esc(l.message)}"</div>` : ""}
+        <div class="intake">
+          ${l.service ? `<span><b>Service</b> ${esc(l.service)}</span>` : ""}
+          ${l.urgency ? `<span><b>How soon</b> ${esc(l.urgency)}</span>` : ""}
+          ${l.preferred_contact ? `<span><b>Reach by</b> ${esc(l.preferred_contact)}</span>` : ""}
+          ${(l.address||l.city) ? `<span><b>Where</b> ${esc([l.address,l.city].filter(Boolean).join(", "))}</span>` : ""}
+        </div>
         <textarea placeholder="Notes…" onblur="saveNotes('${l.id}', this)">${esc(l.notes||"")}</textarea>
         <div class="drow">
           <span>Source: ${esc(l.source||"—")} · Added ${new Date(l.created_at).toLocaleDateString()}</span>
@@ -414,7 +440,7 @@ window.del = async (id) => {
 };
 
 $("export").onclick = () => {
-  const cols = ["name","phone","email","city","temp","status","owner","next_action","source","notes","created_at"];
+  const cols = ["name","phone","email","service","urgency","preferred_contact","city","address","temp","status","owner","next_action","message","source","notes","created_at"];
   const csv = [cols.join(",")].concat(ROWS.map(l => cols.map(c => `"${String(l[c]??"").replace(/"/g,'""')}"`).join(","))).join("\n");
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([csv], { type:"text/csv" }));

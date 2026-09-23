@@ -897,10 +897,23 @@ a { color: inherit; }
   padding: 12px 14px; border: 1px solid var(--line); border-radius: 9px;
   background: var(--bg); color: var(--ink); transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.jvg-lead__field input:focus {
+.jvg-lead__field select,
+.jvg-lead__field textarea {
+  font: inherit; font-size: 15px;
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: 9px;
+  background: var(--bg); color: var(--ink); transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.jvg-lead__field textarea { resize: vertical; min-height: 44px; }
+.jvg-lead__field input:focus,
+.jvg-lead__field select:focus,
+.jvg-lead__field textarea:focus {
   outline: none; border-color: var(--blue);
   box-shadow: 0 0 0 3px rgba(42,53,102,0.12);
 }
+.jvg-lead__row { margin-bottom: 14px; }
+.jvg-lead__row--two { grid-template-columns: 1fr 2fr; }
+.jvg-lead__field--wide { display: flex; flex-direction: column; gap: 6px; }
+.jvg-lead__opt { font-weight: 400; color: var(--muted); font-size: 12px; }
 .jvg-lead__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .jvg-lead__btn {
   margin-top: 18px; width: 100%;
@@ -920,7 +933,7 @@ a { color: inherit; }
 .jvg-lead__fine a:hover { text-decoration: underline; }
 @media (max-width: 640px) {
   .jvg-lead__inner { padding: 30px 22px; }
-  .jvg-lead__row { grid-template-columns: 1fr; }
+  .jvg-lead__row, .jvg-lead__row--two { grid-template-columns: 1fr; }
 }
 
 /* ════════════════════════════════════════════════════════════════
