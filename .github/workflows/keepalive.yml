@@ -1,0 +1,27 @@
+name: Supabase keep-alive
+
+# Free-tier Supabase projects auto-pause after ~7 idle days. While paused,
+# website leads can't save to the Hit List. This pings the database on a
+# schedule so the project stays active. Runs on GitHub's free Actions minutes.
+
+on:
+  schedule:
+    - cron: "0 12 */3 * *"   # every 3 days at 12:00 UTC
+  workflow_dispatch: {}        # allow a manual run from the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the JVG leads database
+        run: |
+          KEY="sb_publishable_B1lxGQ4zQ0LNUy4LXin1Ow_9UIAYAHt"
+          CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+            "https://zsaasblsmjguacebjetr.supabase.co/rest/v1/leads?select=id&limit=1" \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY")
+          echo "Supabase responded: $CODE"
+          # 200 = awake and healthy. Anything else, fail so the run is visible.
+          if [ "$CODE" != "200" ]; then
+            echo "::warning::Unexpected status $CODE — the project may be paused or unhealthy."
+            exit 1
+          fi
