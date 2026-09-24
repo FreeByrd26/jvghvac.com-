@@ -977,6 +977,19 @@ a { color: inherit; }
 .jvg-article ul { margin: 0 0 16px; padding-left: 24px; }
 .jvg-article li { margin-bottom: 8px; line-height: 1.65; }
 .jvg-article strong { color: var(--ink); }
+.jvg-article__related { margin-top: 40px; }
+.jvg-article__related h2 { margin-bottom: 14px; }
+.jvg-article__related ul {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px;
+}
+.jvg-article__related li { margin: 0; }
+.jvg-article__related a {
+  display: block; padding: 11px 14px; border: 1px solid var(--line); border-radius: 9px;
+  background: var(--white); color: var(--blue); text-decoration: none; font-weight: 600; font-size: 14.5px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.jvg-article__related a:hover { border-color: var(--accent); transform: translateY(-1px); }
 .jvg-article__cta {
   background: var(--white); border: 1px solid var(--line); border-top: 4px solid var(--accent);
   border-radius: 14px; padding: 30px 28px; margin-top: 44px;
