@@ -125,6 +125,9 @@ sitemap: false
     border-radius:8px; background:var(--cream); min-height:48px; resize:vertical; }
   .drow { display:flex; gap:8px; align-items:center; margin-top:8px; flex-wrap:wrap; font-size:12.5px; color:var(--muted); }
   .del { color:var(--red); background:none; border:0; cursor:pointer; font-size:12.5px; font-weight:700; text-decoration:underline; }
+  .est { color:var(--navy); font-size:12.5px; font-weight:700; text-decoration:none; border:1.5px solid var(--line);
+    border-radius:7px; padding:5px 10px; margin-right:10px; }
+  .est:hover { border-color:var(--navy); }
   .saved { color:var(--ok); font-weight:700; display:none; }
 
   .empty { text-align:center; color:var(--muted); padding:44px 10px; }
@@ -353,6 +356,7 @@ function stats() {
 }
 
 function esc(t){ return (t||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function estParams(l){ const q=new URLSearchParams(); const m={name:l.name,phone:l.phone,email:l.email,address:l.address,city:l.city,service:l.service}; for(const k in m){ if(m[k]) q.set(k,m[k]); } return q.toString(); }
 function initials(n){ return n.split(/\s+/).map(w => w[0]).join("").slice(0,2).toUpperCase(); }
 
 function render() {
@@ -407,6 +411,7 @@ function render() {
           <span>Source: ${esc(l.source||"—")} · Added ${new Date(l.created_at).toLocaleDateString()}</span>
           <span class="saved">saved ✓</span>
           <span style="flex:1"></span>
+          <a class="est" target="_blank" href="/estimate/?${estParams(l)}">＋ Estimate</a>
           <button class="del" onclick="del('${l.id}')">delete</button>
         </div>
       </div>
