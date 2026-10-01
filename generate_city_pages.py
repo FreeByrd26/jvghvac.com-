@@ -164,8 +164,8 @@ SERVICES_LI = """      <ul>
 
 TPL = """---
 layout: default
-title: "HVAC in {name}, CA | Heating, A/C & Heat Pumps | JVG Cooling & Heating"
-description: "Family-operated HVAC serving {name} ({county}) from our Napa Valley base — heating, air conditioning, heat pumps, and licensed C-10 electrical. $69.99 preventative maintenance inspection. Lic. #1103018."
+title: "HVAC in {name}, CA — Heating, A/C & Heat Pumps | JVG HVAC"
+description: "Family-operated HVAC serving {name} from our Napa Valley base — heating, A/C, heat pumps & licensed electrical. $69.99 inspection. Lic. #1103018."
 permalink: /service-areas/{slug}/
 ---
 
@@ -181,7 +181,7 @@ permalink: /service-areas/{slug}/
 <article class="jvg-article">
   <header class="jvg-article__head">
     <p class="jvg-article__eyebrow">JVG in {name}</p>
-    <h1>HVAC service in {name}, done the family way.</h1>
+    <h2 class="jvg-article__title">HVAC service in {name}, done the family way.</h2>
     <p class="jvg-article__meta">One Napa-based family team · 25 years of experience · Lic. #1103018 (C-20 HVAC · C-10 Electrical · B General)</p>
   </header>
 {paras}

@@ -963,7 +963,8 @@ a { color: inherit; }
   font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--accent); margin: 0 0 14px;
 }
-.jvg-article h1 {
+.jvg-article h1,
+.jvg-article .jvg-article__title {
   font-size: clamp(30px, 4.6vw, 44px); font-weight: 800; line-height: 1.12;
   letter-spacing: -0.02em; color: var(--blue); margin: 0 0 14px;
 }

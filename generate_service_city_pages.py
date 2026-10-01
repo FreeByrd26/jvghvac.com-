@@ -237,8 +237,8 @@ SERVICES = [
 
 TPL = """---
 layout: default
-title: "{svc_name} in {city}, CA | JVG Cooling & Heating Solutions"
-description: "{svc_short_cap} in {city}, {county} from JVG — a Napa Valley family team with 25 years of experience. Honest written pricing, licensed CSL #1103018. Call or text (707) 531-9216."
+title: "{svc_name} in {city}, CA | JVG HVAC"
+description: "{svc_short_cap} in {city} from JVG — a Napa Valley family team. Honest written pricing, licensed #1103018. Call or text (707) 531-9216."
 permalink: /service-areas/{city_slug}/{svc_slug}/
 ---
 
@@ -254,7 +254,7 @@ permalink: /service-areas/{city_slug}/{svc_slug}/
 <article class="jvg-article">
   <header class="jvg-article__head">
     <p class="jvg-article__eyebrow"><a href="{{{{ '/service-areas/{city_slug}/' | relative_url }}}}">JVG in {city}</a> · {svc_name}</p>
-    <h1>{svc_name} in {city}</h1>
+    <h2 class="jvg-article__title">{svc_name} in {city}</h2>
     <p class="jvg-article__meta">Family-operated · 25 years of experience · Lic. #1103018 (C-20 HVAC · C-10 Electrical · B General)</p>
   </header>
 {paras}

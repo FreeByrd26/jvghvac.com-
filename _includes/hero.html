@@ -64,7 +64,8 @@
     </div>
 
     <div class="jvg-hero__media">
-      <img class="jvg-hero__img" src="{{ image | relative_url }}" alt="{{ image_alt }}" />
+      <img class="jvg-hero__img" src="{{ image | relative_url }}" alt="{{ image_alt }}"
+           width="1600" height="1067" fetchpriority="high" decoding="async" />
       {% unless include.hide_chip == "true" %}
       <figure class="jvg-hero__chip">
         <div class="jvg-hero__chip-stars" aria-hidden="true">★★★★★</div>
